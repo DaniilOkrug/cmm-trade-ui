@@ -1,4 +1,7 @@
 import React, { FC } from 'react';
+import * as Components from "../../components/index";
+
+const DashboardMenu = Components.DashboardMenu;
 
 interface TitleProps {
   title?: string;
@@ -8,6 +11,8 @@ interface TitleProps {
 const Home: FC<TitleProps> = ({ title, subtitle, children }) => {
   return (
     <div>
+      <DashboardMenu />
+
       <h1>Home</h1>
     </div>
   );

@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import React, { FC } from "react";
+import { Container, Form, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 interface TitleProps {
   title?: string;
@@ -8,7 +8,7 @@ interface TitleProps {
 
 const Menu: FC<TitleProps> = ({ title, subtitle, children }) => {
   return (
-    <div className='not-authorized-menu'>
+    <div className="not-authorized-menu">
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">CMM Trade</Navbar.Brand>
@@ -17,13 +17,13 @@ const Menu: FC<TitleProps> = ({ title, subtitle, children }) => {
             <Nav className="me-auto">
               <Nav.Link href="#login">Вход</Nav.Link>
               <Nav.Link href="#signup">Регистрация</Nav.Link>
-              
             </Nav>
             <Nav>
-              <Nav.Link href="#additional">Дополнительное меню</Nav.Link>
               <NavDropdown title="Язык" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Русский</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Анлийский</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  Анлийский
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
