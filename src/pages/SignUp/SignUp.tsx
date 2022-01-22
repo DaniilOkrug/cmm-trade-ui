@@ -32,15 +32,15 @@ const SignUp: FC<TitleProps> = ({ title, subtitle, children }) => {
                   <h2>Регистрация</h2>
                 </Row>
 
-                <Row className="mb-3">
-                  <FormGroup as={Col}>
+                <Row>
+                  <FormGroup as={Col} className="mb-3">
                     <FormLabel>Полное имя</FormLabel>
                     <FormControl
                       type="text"
                       placeholder="Введите имя"
                     ></FormControl>
                   </FormGroup>
-                  <FormGroup as={Col}>
+                  <FormGroup as={Col} className="mb-3">
                     <FormLabel>Email адрес</FormLabel>
                     <FormControl
                       type="email"
@@ -49,15 +49,15 @@ const SignUp: FC<TitleProps> = ({ title, subtitle, children }) => {
                   </FormGroup>
                 </Row>
 
-                <Row className="mb-3">
-                  <FormGroup as={Col}>
+                <Row>
+                  <FormGroup as={Col} className="mb-3">
                     <FormLabel>Введите пароль</FormLabel>
                     <FormControl
                       type="password"
                       placeholder="Пароль"
                     ></FormControl>
                   </FormGroup>
-                  <FormGroup as={Col}>
+                  <FormGroup as={Col} className="mb-3">
                     <FormLabel>Введите повторно пароль</FormLabel>
                     <FormControl
                       type="password"
@@ -76,7 +76,14 @@ const SignUp: FC<TitleProps> = ({ title, subtitle, children }) => {
                 </Row>
 
                 <Row className="d-flex justify-content-center">
-                  <Col xs={12} md={12} lg={12} xl={6} xxl={6} className="d-flex justify-content-center">
+                  <Col
+                    xs={12}
+                    md={12}
+                    lg={12}
+                    xl={6}
+                    xxl={6}
+                    className="d-flex justify-content-center"
+                  >
                     <Button
                       className="signup-btn px-5 py-2"
                       variant="primary"

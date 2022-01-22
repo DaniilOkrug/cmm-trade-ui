@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
-import './Login.css'
+import './SideMenu.css'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import Menu from '../../components/Menu/Menu';
 
 const SideMenu = () => {
     return (
-        <div>
-            
-        </div>
+        <aside className='sidemenu'>
+            <h1>SideMenu</h1>
+        </aside>
     );
 };
 

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import "./DashboardMenu.css";
-import { Col, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import Menu from "../../components/Menu/Menu";
+import { Button, Col, Nav, Navbar } from "react-bootstrap";
 
 interface TitleProps {
   title?: string;
@@ -10,26 +10,38 @@ interface TitleProps {
 
 const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="#home">CMM Trade</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#signup">Профиль</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="#signup">Поддержка</Nav.Link>
-            <NavDropdown title="Язык" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Русский</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Анлийский</NavDropdown.Item>
-            </NavDropdown>
-            <Col>
-              <p className="white">Balance</p>
+    <Navbar
+      className="dashboard_menu"
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      variant="dark"
+    >
+      <Navbar.Brand className="brand" href="#home">
+        <Link to="/office">CMM Trade</Link>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse
+        className="justify-content-end"
+        id="responsive-navbar-nav"
+      >
+        <Nav>
+          <Nav.Item>
+            <Link to="profile">Профиль</Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Col className="menu-info">
+              <p className="info-email">example@gmail.com </p>
+              <p className="info-balance">Balance: 1000$</p>
             </Col>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+          </Nav.Item>
+          <Nav.Item>
+            <Button className="logout-btn" variant="secondary">
+              Выйти
+            </Button>
+          </Nav.Item>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   );
 };
