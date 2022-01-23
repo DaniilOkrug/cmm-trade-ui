@@ -180,38 +180,49 @@ const Statistics: FC<TitleProps> = ({ title, subtitle, children }) => {
       <Container fluid className="p-3">
         <Card>
           <Card.Body>
-            <h3>Стастистика аккаунта</h3>
+            <Col>
+              <h3>Стастистика аккаунта</h3>
 
-            <hr />
+              <hr />
 
-            <Row>
-              <Col>
-                <p>Доход общий: 2327$/38%</p>
-                <p>Доход за день: 13$/2%</p>
-              </Col>
-              <Col>
-                <p>Доход за неделю: 873$/7.23%</p>
-                <p>Доход за месяц: 1249/11.3%</p>
-              </Col>
-            </Row>
+              <Row>
+                <Col>
+                  <p>Доход общий: 2327$/38%</p>
+                  <p>Доход за день: 13$/2%</p>
+                </Col>
+                <Col>
+                  <p>Доход за неделю: 873$/7.23%</p>
+                  <p>Доход за месяц: 1249/11.3%</p>
+                </Col>
+              </Row>
 
-            <Row>
-              <Col>
-                <Line options={optionsGeneral} data={dataGeneral} />
-              </Col>
-              <Col>
-                <Line options={optionsDay} data={dataDay} />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col>
-                <Line options={optionsWeek} data={dataWeek} />
-              </Col>
-              <Col>
-                <Line options={optionsMonth} data={dataMonth} />
-              </Col>
-            </Row>
+              <Row>
+                <Col>
+                  <Line
+                    className="graph"
+                    options={optionsGeneral}
+                    data={dataGeneral}
+                  />
+                  <Col>
+                    <Line
+                      className="graph"
+                      options={optionsWeek}
+                      data={dataWeek}
+                    />
+                  </Col>
+                </Col>
+                <Col>
+                  <Line className="graph" options={optionsDay} data={dataDay} />
+                  <Col>
+                    <Line
+                      className="graph"
+                      options={optionsMonth}
+                      data={dataMonth}
+                    />
+                  </Col>
+                </Col>
+              </Row>
+            </Col>
           </Card.Body>
         </Card>
       </Container>

@@ -8,6 +8,9 @@ import ModalAddApi from "./ModalAddApi/ModalAddApi";
 import Apilist from "./Apilist/Apilist";
 import Statistics from "./Statistics/Statistics";
 import AdminMain from "./AdminMain/AdminMain";
+import AdminMenu from "./AdminMenu/AdminMenu";
+import BotSettings from "./BotSettings/BotSettings";
+import CoinsBlackList from "./CoinsBlackList/CoinsBlackList";
 
 export {
   Menu,
@@ -20,4 +23,7 @@ export {
   ModalAddApi,
   Statistics,
   AdminMain,
+  AdminMenu,
+  BotSettings,
+  CoinsBlackList,
 };

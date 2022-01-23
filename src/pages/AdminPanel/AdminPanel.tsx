@@ -3,7 +3,7 @@ import "./AdminPanel.css";
 import * as Components from "../../components/index";
 import { Outlet } from "react-router-dom";
 
-const DashboardMenu = Components.DashboardMenu;
+const AdminMenu = Components.AdminMenu;
 
 interface TitleProps {
   title?: string;
@@ -13,9 +13,8 @@ interface TitleProps {
 const AdminPanel: FC<TitleProps> = ({ title, subtitle, children }) => {
   return (
     <div>
-      <DashboardMenu />
+      <AdminMenu />
 
-      <h1>AdminPanel</h1>
       <main className="wrapper">
         <Outlet />
       </main>
