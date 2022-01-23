@@ -1,0 +1,14 @@
+.profile .profile-main p {
+    margin: 0;
+}
+
+.profile .profile-general .profile-general-balance {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.profile .profile-main .profile-main-phone {
+    display: flex;
+    flex-direction: row;
+}

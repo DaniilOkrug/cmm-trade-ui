@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Pages } from "./pages/index";
-import { Profile } from "./components/index"
+import { Profile, Office } from "./components/index"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,7 +14,10 @@ ReactDOM.render(
       <Route path="/login" element={<Pages.Login />} />
       <Route path="/signup" element={<Pages.SignUp />} />
       <Route path="/office" element={<Pages.Dashboard />}>
+        <Route path="/office/" element={<Office />} />
+        <Route path="/office/statistics" element={<Profile />} />
         <Route path="/office/profile" element={<Profile />} />
+
         <Route
           path="*"
           element={

@@ -14,8 +14,6 @@ const Home: FC<TitleProps> = ({ title, subtitle, children }) => {
     <div>
       <DashboardMenu />
 
-      <SideMenu />
-
       <h1>Home</h1>
     </div>
   );

@@ -15,8 +15,6 @@ const Dashboard: FC<TitleProps> = ({ title, subtitle, children }) => {
     <div>
       <DashboardMenu />
 
-      <SideMenu />
-
       <main className="wrapper">
         <Outlet />
       </main>

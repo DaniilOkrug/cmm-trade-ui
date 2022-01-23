@@ -27,7 +27,13 @@ const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
       >
         <Nav>
           <Nav.Item>
+            <Link to="/office">Главная</Link>
+          </Nav.Item>
+          <Nav.Item>
             <Link to="profile">Профиль</Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link to="statistics">Статистика</Link>
           </Nav.Item>
           <Nav.Item>
             <Col className="menu-info">
