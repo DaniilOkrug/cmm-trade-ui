@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Pages } from "./pages/index";
-import { Profile, Office } from "./components/index"
+import { Profile, Office, Statistics, AdminMain } from "./components/index";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -15,9 +15,21 @@ ReactDOM.render(
       <Route path="/signup" element={<Pages.SignUp />} />
       <Route path="/office" element={<Pages.Dashboard />}>
         <Route path="/office/" element={<Office />} />
-        <Route path="/office/statistics" element={<Profile />} />
+        <Route path="/office/statistics" element={<Statistics />} />
         <Route path="/office/profile" element={<Profile />} />
-
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: "1rem" }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
+      </Route>
+      <Route path="/admin" element={<Pages.AdminPanel />}>
+        <Route path="/admin/" element={<AdminMain />} />
+        {/* <Route path="/admin/statistics" element={<BotSettings />} /> */}
+        {/* <Route path="/admin/profile" element={<CoinsBlackList />} /> */}
         <Route
           path="*"
           element={

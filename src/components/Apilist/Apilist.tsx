@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import "./Apilist.css";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
 interface TitleProps {
   title: string;
@@ -25,9 +25,14 @@ const Apilist: FC<TitleProps> = ({ title, status, children }) => {
         <tbody>
           <tr>
             <td>1</td>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <td key={index}>Table cell {index}</td>
-            ))}
+            <td>test</td>
+            <td>Binance Spot</td>
+            <td>Active</td>
+            <td>h24j6kjhn6b7l3k24;l4kk6kj312l3kkj56</td>
+            <td>
+              <Button>Проверить</Button>{' '}
+              <Button>Удалить</Button>
+            </td>
           </tr>
         </tbody>
       </Table>

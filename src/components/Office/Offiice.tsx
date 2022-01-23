@@ -12,8 +12,7 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
     <Container fluid className="office">
       <Row className="accountActions">
         <div>
-          <Button>Пополнить</Button>{" "}
-          <Button>Создать робота</Button>{" "}
+          <Button>Пополнить</Button> <Button>Создать робота</Button>{" "}
           <Button variant="danger">Остановить роботов</Button>{" "}
         </div>
       </Row>
@@ -105,21 +104,15 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
                   <tbody>
                     <tr>
                       <td>1</td>
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <td key={index}>Table cell {index}</td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <td key={index}>Table cell {index}</td>
-                      ))}
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      {Array.from({ length: 9 }).map((_, index) => (
-                        <td key={index}>Table cell {index}</td>
-                      ))}
+                      <td>test</td>
+                      <td>Ожидание</td>
+                      <td>Active</td>
+                      <td>Binance Futures</td>
+                      <td>132</td>
+                      <td>35, 1.1</td>
+                      <td>3500$</td>
+                      <td>11.4</td>
+                      <td>-</td>
                     </tr>
                   </tbody>
                 </Table>
