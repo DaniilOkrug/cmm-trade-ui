@@ -17,7 +17,7 @@ import {
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Pages.Home />} />
+      <Route path="/" element={<Pages.Login />} />
       <Route path="/login" element={<Pages.Login />} />
       <Route path="/signup" element={<Pages.SignUp />} />
       <Route path="/office" element={<Pages.Dashboard />}>
