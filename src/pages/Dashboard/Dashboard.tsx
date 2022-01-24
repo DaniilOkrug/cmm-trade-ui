@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import * as Components from "../../components/index";
 
 const DashboardMenu = Components.DashboardMenu;
-const SideMenu = Components.SideMenu;
 
 interface TitleProps {
   title?: string;
