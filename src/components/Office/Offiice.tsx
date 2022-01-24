@@ -12,8 +12,9 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
     <Container fluid className="office">
       <Row className="accountActions">
         <div>
-          <Button>Пополнить</Button> <Button>Создать робота</Button>{" "}
-          <Button variant="danger">Остановить роботов</Button>{" "}
+          <Button className="m-1">Пополнить</Button>
+          <Button className="m-1">Создать робота</Button>
+          <Button variant="danger" className="m-1">Остановить роботов</Button>
         </div>
       </Row>
 

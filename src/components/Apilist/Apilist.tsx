@@ -30,8 +30,8 @@ const Apilist: FC<TitleProps> = ({ title, status, children }) => {
             <td>Active</td>
             <td>h24j6kjhn6b7l3k24;l4kk6kj312l3kkj56</td>
             <td>
-              <Button>Проверить</Button>{' '}
-              <Button>Удалить</Button>
+              <Button className="m-1">Проверить</Button>{' '}
+              <Button className="m-1">Удалить</Button>
             </td>
           </tr>
         </tbody>
