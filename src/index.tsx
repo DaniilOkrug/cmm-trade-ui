@@ -11,43 +11,47 @@ import {
   Statistics,
   AdminMain,
   BotSettings,
-  CoinsBlackList
+  CoinsBlackList,
 } from "./components/index";
+import { setupStore } from './store/reducers'
+import { Provider } from "react-redux";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Pages.Login />} />
-      <Route path="/login" element={<Pages.Login />} />
-      <Route path="/signup" element={<Pages.SignUp />} />
-      <Route path="/office" element={<Pages.Dashboard />}>
-        <Route path="/office/" element={<Office />} />
-        <Route path="/office/statistics" element={<Statistics />} />
-        <Route path="/office/profile" element={<Profile />} />
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: "1rem" }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
-      </Route>
-      <Route path="/admin" element={<Pages.AdminPanel />}>
-        <Route path="/admin/" element={<AdminMain />} />
-        <Route path="/admin/settings" element={<BotSettings />} />
-        <Route path="/admin/blacklist" element={<CoinsBlackList />} />
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: "1rem" }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
-      </Route>
-    </Routes>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Pages.Login />} />
+        <Route path="/login" element={<Pages.Login />} />
+        <Route path="/signup" element={<Pages.SignUp />} />
+        <Route path="/office" element={<Pages.Dashboard />}>
+          <Route path="/office/" element={<Office />} />
+          <Route path="/office/statistics" element={<Statistics />} />
+          <Route path="/office/profile" element={<Profile />} />
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Route>
+        <Route path="/admin" element={<Pages.AdminPanel />}>
+          <Route path="/admin/" element={<AdminMain />} />
+          <Route path="/admin/settings" element={<BotSettings />} />
+          <Route path="/admin/blacklist" element={<CoinsBlackList />} />
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
 
