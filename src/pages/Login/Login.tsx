@@ -1,14 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import "./Login.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-}
+const Login: FC = () => {
+  const [email, setEmail] = useState<String>("");
+  const [password, setPassword] = useState<String>("");
 
-const Login: FC<TitleProps> = ({ title, subtitle, children }) => {
   return (
     <div>
       <Menu />
@@ -25,16 +23,31 @@ const Login: FC<TitleProps> = ({ title, subtitle, children }) => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Email адрес</Form.Label>
-                  <Form.Control type="email" placeholder="Введите email" />
+                  <Form.Control
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    placeholder="Введите email"
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-4">
                   <Form.Label>Пароль</Form.Label>
-                  <Form.Control type="password" placeholder="Введите пароль" />
+                  <Form.Control
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    placeholder="Введите пароль"
+                  />
                 </Form.Group>
 
                 <Row className="d-flex justify-content-center">
-                  <Col xs={12} md={12} lg={12} xl={6} xxl={6} className="d-flex justify-content-center">
+                  <Col
+                    xs={12}
+                    md={12}
+                    lg={12}
+                    xl={6}
+                    xxl={6}
+                    className="d-flex justify-content-center"
+                  >
                     <Button
                       className="login-btn px-5 py-2"
                       variant="primary"

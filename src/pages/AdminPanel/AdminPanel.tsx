@@ -5,12 +5,7 @@ import { Outlet } from "react-router-dom";
 
 const AdminMenu = Components.AdminMenu;
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-}
-
-const AdminPanel: FC<TitleProps> = ({ title, subtitle, children }) => {
+const AdminPanel: FC = () => {
   return (
     <div>
       <AdminMenu />

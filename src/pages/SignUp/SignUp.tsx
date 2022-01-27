@@ -13,12 +13,7 @@ import {
 } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-}
-
-const SignUp: FC<TitleProps> = ({ title, subtitle, children }) => {
+const SignUp: FC = () => {
   return (
     <div>
       <Menu />

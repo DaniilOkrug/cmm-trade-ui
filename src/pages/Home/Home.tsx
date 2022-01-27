@@ -4,12 +4,7 @@ import * as Components from "../../components/index";
 const DashboardMenu = Components.DashboardMenu;
 const SideMenu = Components.SideMenu;
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-}
-
-const Home: FC<TitleProps> = ({ title, subtitle, children }) => {
+const Home: FC = () => {
   return (
     <div>
       <DashboardMenu />
