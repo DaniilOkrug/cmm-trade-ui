@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Col, Button } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import "./AdminMenu.css";
 
 interface TitleProps {

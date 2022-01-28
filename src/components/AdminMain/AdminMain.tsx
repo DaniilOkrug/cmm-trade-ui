@@ -1,12 +1,8 @@
-import React, { FC, useState } from "react";
-import { Tabs, Tab, Card, Row, Col } from "react-bootstrap";
+import React, { FC } from "react";
+import { Card, Row, Col } from "react-bootstrap";
 import "./AdminMain.css";
 
-interface TitleProps {
-  xz?: boolean;
-}
-
-const AdminMain: FC<TitleProps> = ({ xz }) => {
+const AdminMain: FC = () => {
   return (
     <div className="p-3">
       <Card>

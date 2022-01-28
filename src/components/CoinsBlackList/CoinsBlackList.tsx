@@ -1,13 +1,8 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { ListGroup, Button, Container, Row, Col, Card, Form } from "react-bootstrap";
 import "./CoinsBlackList.css";
 
-interface TitleProps {
-  xz?: boolean;
-}
-
-const CoinsBlackList: FC<TitleProps> = ({ xz }) => {
-  const [modalShow, setModalShow] = React.useState(false);
+const CoinsBlackList: FC = () => {
   return (
     <div className="blackList">
       <Container className="p-3">

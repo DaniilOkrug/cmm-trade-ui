@@ -1,14 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import "./API.css";
-import { Modal, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 import { Apilist, ModalAddApi } from "../index";
 
-interface TitleProps {
-  xz?: boolean;
-}
-
-const API: FC<TitleProps> = ({ xz }) => {
+const API: FC = () => {
   const [modalShow, setModalShow] = React.useState(false);
   return (
     <div>
@@ -22,7 +18,7 @@ const API: FC<TitleProps> = ({ xz }) => {
       <hr />
 
       <div className="profile-api-keys">
-        <Apilist title="12" status="12" key="12" />
+        <Apilist />
       </div>
 
       <ModalAddApi showModal={modalShow} onHide={() => setModalShow(false)} />

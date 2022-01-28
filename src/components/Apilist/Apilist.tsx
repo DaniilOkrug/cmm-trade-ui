@@ -1,14 +1,8 @@
 import React, { FC } from "react";
 import "./Apilist.css";
-import { Button, Table, Row } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
-interface TitleProps {
-  title: string;
-  status: string;
-  key: string;
-}
-
-const Apilist: FC<TitleProps> = ({ title, status, children }) => {
+const Apilist: FC = () => {
   return (
     <div className="api">
       <Table responsive>

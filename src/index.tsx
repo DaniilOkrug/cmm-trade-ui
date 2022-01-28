@@ -13,8 +13,10 @@ import {
   BotSettings,
   CoinsBlackList,
 } from "./components/index";
-import { setupStore } from './store/reducers'
 import { Provider } from "react-redux";
+import { setupStore } from "./store/store";
+
+const store = setupStore();
 
 ReactDOM.render(
   <Provider store={store}>

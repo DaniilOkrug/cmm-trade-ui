@@ -1,11 +1,17 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect } from "react";
 import "./Login.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { login } from "../../store/reducers/ActionCreator";
 
 const Login: FC = () => {
-  const [email, setEmail] = useState<String>("");
-  const [password, setPassword] = useState<String>("");
+  const dispatch = useAppDispatch();
+  const { user, isLoading, error } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    dispatch(login());
+  }, []);
 
   return (
     <div>
@@ -24,7 +30,6 @@ const Login: FC = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Email адрес</Form.Label>
                   <Form.Control
-                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     placeholder="Введите email"
                   />
@@ -33,7 +38,6 @@ const Login: FC = () => {
                 <Form.Group className="mb-4">
                   <Form.Label>Пароль</Form.Label>
                   <Form.Control
-                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     placeholder="Введите пароль"
                   />

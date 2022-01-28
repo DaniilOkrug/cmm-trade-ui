@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import "./Statistics.css";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import {
   CategoryScale,
