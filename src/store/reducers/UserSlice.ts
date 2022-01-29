@@ -5,12 +5,14 @@ import { login } from "./ActionCreator";
 interface UserState {
   user: IUser;
   isLoading: boolean;
+  isAuth: boolean;
   error: string;
 }
 
 const initialState: UserState = {
   user: {} as IUser,
   isLoading: false,
+  isAuth: false,
   error: "",
 };
 
@@ -20,6 +22,7 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: {
     [login.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+      state.isAuth = true;
       state.isLoading = false;
       state.error = "";
       state.user = action.payload;
@@ -30,6 +33,8 @@ export const userSlice = createSlice({
     [login.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
+      console.log(`Error: ${state.error}`);
+      
     },
   },
 });

@@ -1,58 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Pages } from "./pages/index";
-import {
-  Profile,
-  Office,
-  Statistics,
-  AdminMain,
-  BotSettings,
-  CoinsBlackList,
-} from "./components/index";
 import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
+import { checkAuth } from "./store/reducers/ActionCreator";
+import App from "./App";
 
 const store = setupStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Pages.Login />} />
-        <Route path="/login" element={<Pages.Login />} />
-        <Route path="/signup" element={<Pages.SignUp />} />
-        <Route path="/office" element={<Pages.Dashboard />}>
-          <Route path="/office/" element={<Office />} />
-          <Route path="/office/statistics" element={<Statistics />} />
-          <Route path="/office/profile" element={<Profile />} />
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
-        </Route>
-        <Route path="/admin" element={<Pages.AdminPanel />}>
-          <Route path="/admin/" element={<AdminMain />} />
-          <Route path="/admin/settings" element={<BotSettings />} />
-          <Route path="/admin/blacklist" element={<CoinsBlackList />} />
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <App />
   </Provider>,
   document.getElementById("root")
 );

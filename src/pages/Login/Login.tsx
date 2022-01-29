@@ -1,17 +1,18 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Login.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { login } from "../../store/reducers/ActionCreator";
 
 const Login: FC = () => {
-  const dispatch = useAppDispatch();
-  const { user, isLoading, error } = useAppSelector((state) => state.userReducer);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  useEffect(() => {
-    dispatch(login());
-  }, []);
+  const dispatch = useAppDispatch();
+  const { user, isLoading, error } = useAppSelector(
+    (state) => state.userReducer
+  );
 
   return (
     <div>
@@ -30,6 +31,8 @@ const Login: FC = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Email адрес</Form.Label>
                   <Form.Control
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                     type="email"
                     placeholder="Введите email"
                   />
@@ -38,6 +41,8 @@ const Login: FC = () => {
                 <Form.Group className="mb-4">
                   <Form.Label>Пароль</Form.Label>
                   <Form.Control
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                     type="password"
                     placeholder="Введите пароль"
                   />
@@ -55,7 +60,7 @@ const Login: FC = () => {
                     <Button
                       className="login-btn px-5 py-2"
                       variant="primary"
-                      type="submit"
+                      onClick={() => dispatch(login({ email, password }))}
                     >
                       Войти
                     </Button>
