@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import "./DashboardMenu.css";
 import { Button, Col, Nav, Navbar } from "react-bootstrap";
+import { useAppDispatch } from "../../hooks/redux";
+import { logout } from "../../store/reducers/ActionCreator";
 
 interface TitleProps {
   title?: string;
@@ -9,6 +11,8 @@ interface TitleProps {
 }
 
 const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <Navbar
       className="dashboard_menu"
@@ -18,7 +22,7 @@ const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
       variant="dark"
     >
       <Navbar.Brand className="brand" href="#home">
-        <Link to="/office">CMM Trade</Link>
+        <Link to="">CMM Trade</Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse
@@ -27,7 +31,7 @@ const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
       >
         <Nav>
           <Nav.Item>
-            <Link to="/office">Главная</Link>
+            <Link to="">Главная</Link>
           </Nav.Item>
           <Nav.Item>
             <Link to="profile">Профиль</Link>
@@ -42,7 +46,7 @@ const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
             </Col>
           </Nav.Item>
           <Nav.Item>
-            <Button className="logout-btn" variant="secondary">
+            <Button onClick={() => dispatch(logout())} className="logout-btn" variant="secondary">
               Выйти
             </Button>
           </Nav.Item>

@@ -21,10 +21,9 @@ export const login = createAsyncThunk(
         userData.email,
         userData.password
       );
-      console.log(response.data);
 
       localStorage.setItem("token", response.data.accessToken);
-      return response.data;
+      return response.data.user;
     } catch (err) {
       thunkAPI.rejectWithValue("Не удалось войти!");
     }
@@ -34,7 +33,7 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk("user/logout", async (_, thunkAPI) => {
   try {
     const response = await AuthService.logout();
-    console.log(response.data);
+    localStorage.removeItem('token')
 
     return response.data;
   } catch (err) {
@@ -50,9 +49,10 @@ export const registration = createAsyncThunk(
         userData.email,
         userData.password
       );
+      localStorage.setItem("token", response.data.accessToken);
       console.log(response.data);
 
-      return response.data;
+      return response.data.user;
     } catch (err) {
       thunkAPI.rejectWithValue("Не удалось зарегистрироваться!");
     }
@@ -64,10 +64,11 @@ export const checkAuth = createAsyncThunk("user/refresh", async (_, thunkAPI) =>
     const response = await axios.get<AuthResponse>(`${URL}/refresh`, {
       withCredentials: true,
     });
-    console.log(response.data);
+    console.log("Check auth response: " + response.data);
+    localStorage.setItem('token', response.data.accessToken);
 
-    return response.data;
+    return response.data.user;
   } catch (err) {
-    thunkAPI.rejectWithValue("Не удалось выйти!");
+    thunkAPI.rejectWithValue("Ошибка авторизации!");
   }
 });

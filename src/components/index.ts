@@ -12,7 +12,6 @@ import CoinsBlackList from "./CoinsBlackList/CoinsBlackList";
 import ModalAddApi from "./Modals/ModalAddApi/ModalAddApi";
 import ModalDeposit from "./Modals/ModalDeposit/ModalDeposit";
 
-
 export {
   ModalAddApi,
   ModalDeposit,

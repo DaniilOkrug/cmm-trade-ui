@@ -4,15 +4,13 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { login } from "../../store/reducers/ActionCreator";
+import { Navigate } from "react-router";
 
 const Login: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const { user, isLoading, error } = useAppSelector(
-    (state) => state.userReducer
-  );
 
   return (
     <div>
@@ -60,17 +58,18 @@ const Login: FC = () => {
                     <Button
                       className="login-btn px-5 py-2"
                       variant="primary"
+                      type="submit"
                       onClick={() => dispatch(login({ email, password }))}
                     >
                       Войти
                     </Button>
                   </Col>
                 </Row>
-                <Row className="mt-3">
+                {/* <Row className="mt-3">
                   <p className="forgot-password text-end">
                     Восстановить <a href="#">пароль?</a>
                   </p>
-                </Row>
+                </Row> */}
               </Form>
             </Col>
             <Col></Col>

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import "./SignUp.css";
 import {
   Container,
@@ -12,8 +12,32 @@ import {
   FormCheck,
 } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
+import { registration } from "../../store/reducers/ActionCreator";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { Navigate } from "react-router";
 
 const SignUp: FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordAgain, setPasswordAgain] = useState<string>("");
+
+  const dispatch = useAppDispatch();
+  const { isAuth } = useAppSelector((state) => state.userReducer);
+
+  const handleRegistration = (
+    email: string,
+    password: string,
+    passwordAgain: string
+  ) => {
+    //Validation
+    if (password != passwordAgain) {
+      alert("Пароли разные!");
+      return;
+    }
+
+    console.log(dispatch(registration({ email, password })));
+  };
+
   return (
     <div>
       <Menu />
@@ -38,6 +62,7 @@ const SignUp: FC = () => {
                   <FormGroup as={Col} className="mb-3">
                     <FormLabel>Email адрес</FormLabel>
                     <FormControl
+                      onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       placeholder="Введите email"
                     ></FormControl>
@@ -48,6 +73,7 @@ const SignUp: FC = () => {
                   <FormGroup as={Col} className="mb-3">
                     <FormLabel>Введите пароль</FormLabel>
                     <FormControl
+                      onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       placeholder="Пароль"
                     ></FormControl>
@@ -55,6 +81,7 @@ const SignUp: FC = () => {
                   <FormGroup as={Col} className="mb-3">
                     <FormLabel>Введите повторно пароль</FormLabel>
                     <FormControl
+                      onChange={(e) => setPasswordAgain(e.target.value)}
                       type="password"
                       placeholder="Пароль"
                     ></FormControl>
@@ -82,7 +109,9 @@ const SignUp: FC = () => {
                     <Button
                       className="signup-btn px-5 py-2"
                       variant="primary"
-                      type="submit"
+                      onClick={() =>
+                        handleRegistration(email, password, passwordAgain)
+                      }
                     >
                       Создать аккаунт
                     </Button>
