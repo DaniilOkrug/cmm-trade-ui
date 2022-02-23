@@ -21,7 +21,7 @@ const DashboardMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
       bg="dark"
       variant="dark"
     >
-      <Navbar.Brand className="brand" href="#home">
+      <Navbar.Brand className="brand">
         <Link to="">CMM Trade</Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />

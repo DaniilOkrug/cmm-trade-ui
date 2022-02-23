@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import "./Login.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { login } from "../../store/reducers/ActionCreator";
-import { Navigate } from "react-router";
 
 const Login: FC = () => {
   const [email, setEmail] = useState<string>("");

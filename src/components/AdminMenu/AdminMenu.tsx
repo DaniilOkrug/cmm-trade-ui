@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import "./AdminMenu.css";
+import { useAppDispatch } from "../../hooks/redux";
+import { logout } from "../../store/reducers/ActionCreator";
 
 interface TitleProps {
   title?: string;
@@ -9,6 +11,7 @@ interface TitleProps {
 }
 
 const AdminMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
+  const dispatch = useAppDispatch();
   return (
     <Navbar
       className="dashboard_menu"
@@ -17,9 +20,9 @@ const AdminMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
       bg="dark"
       variant="dark"
     >
-      <Navbar.Brand className="brand" href="#home">
-        <Link to="/admin">CMM Trade</Link>
-      </Navbar.Brand>
+      <Link className="brand" to="/admin">
+        CMM Trade
+      </Link>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse
         className="justify-content-end"
@@ -36,7 +39,11 @@ const AdminMenu: FC<TitleProps> = ({ title, subtitle, children }) => {
             <Link to="blacklist">Черный список</Link>
           </Nav.Item>
           <Nav.Item>
-            <Button className="logout-btn" variant="secondary">
+            <Button
+              onClick={() => dispatch(logout())}
+              className="logout-btn"
+              variant="secondary"
+            >
               Выйти
             </Button>
           </Nav.Item>

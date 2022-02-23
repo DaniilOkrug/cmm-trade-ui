@@ -13,8 +13,7 @@ import {
 } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
 import { registration } from "../../store/reducers/ActionCreator";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { Navigate } from "react-router";
+import { useAppDispatch } from "../../hooks/redux";
 
 const SignUp: FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -22,7 +21,6 @@ const SignUp: FC = () => {
   const [passwordAgain, setPasswordAgain] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const { isAuth } = useAppSelector((state) => state.userReducer);
 
   const handleRegistration = (
     email: string,
@@ -30,7 +28,7 @@ const SignUp: FC = () => {
     passwordAgain: string
   ) => {
     //Validation
-    if (password != passwordAgain) {
+    if (password !== passwordAgain) {
       alert("Пароли разные!");
       return;
     }

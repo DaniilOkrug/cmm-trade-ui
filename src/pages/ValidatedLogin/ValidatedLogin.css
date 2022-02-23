@@ -1,0 +1,23 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 1rem;
+}
+
+.login-form .login-btn {
+    border-radius: 2rem;
+}
+
+.login-container .input-feedback {
+  color: rgb(235, 54, 54);
+  font-size: 14px;
+}

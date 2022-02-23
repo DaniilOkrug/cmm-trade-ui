@@ -1,17 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import AuthService from "../../service/AuthService";
-import { IUser } from "../../types/IUser";
 import { AuthResponse } from "../../types/response/AuthResponse";
-import { AppDispatch } from "../store";
-import { userSlice } from "./UserSlice";
+import { URL } from "../../utils/config";
 
 interface loginData {
   email: string;
   password: string;
 }
-
-const URL = "http://localhost:5000/api";
 
 export const login = createAsyncThunk(
   "user/login",
@@ -25,7 +21,7 @@ export const login = createAsyncThunk(
       localStorage.setItem("token", response.data.accessToken);
       return response.data.user;
     } catch (err) {
-      thunkAPI.rejectWithValue("Не удалось войти!");
+      return thunkAPI.rejectWithValue("Не удалось войти!");
     }
   }
 );
@@ -37,7 +33,7 @@ export const logout = createAsyncThunk("user/logout", async (_, thunkAPI) => {
 
     return response.data;
   } catch (err) {
-    thunkAPI.rejectWithValue("Не удалось выйти!");
+    return thunkAPI.rejectWithValue("Не удалось выйти!");
   }
 });
 
@@ -54,7 +50,7 @@ export const registration = createAsyncThunk(
 
       return response.data.user;
     } catch (err) {
-      thunkAPI.rejectWithValue("Не удалось зарегистрироваться!");
+      return thunkAPI.rejectWithValue("Не удалось зарегистрироваться!");
     }
   }
 );
@@ -68,7 +64,9 @@ export const checkAuth = createAsyncThunk("user/refresh", async (_, thunkAPI) =>
     localStorage.setItem('token', response.data.accessToken);
 
     return response.data.user;
-  } catch (err) {
-    thunkAPI.rejectWithValue("Ошибка авторизации!");
+  } catch (err: any) {
+    console.log(err);
+    
+    return thunkAPI.rejectWithValue("Ошибка авторизации!");
   }
 });

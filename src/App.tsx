@@ -19,17 +19,16 @@ const App: FC = () => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    
+    if (token) {
       dispatch(checkAuth());
     }
   }, []);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
-  }
-
-  if (error) {
-    return <h1>{error}</h1>;
   }
 
   if (isAuth) {
@@ -73,8 +72,8 @@ const App: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Pages.Login />} />
-        <Route path="/signup" element={<Pages.SignUp />} />
+        <Route path="/login" element={<Pages.ValidatedLogin />} />
+        <Route path="/signup" element={<Pages.ValidatedSignUp />} />
         <Route path="/" element={<Navigate to="/login" />}>
           <Route path="*" element={<Navigate to="/" />} />
         </Route>

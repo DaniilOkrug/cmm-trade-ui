@@ -32,6 +32,8 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [login.rejected.type]: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
+      
       state.isLoading = false;
       state.error = action.payload;
     },
@@ -50,8 +52,7 @@ export const userSlice = createSlice({
       console.log("checkAuth.rejected");
       state.user = {} as IUser;
       state.isAuth = false;
-      state.isLoading = true;
-      state.error = action.payload;
+      state.isLoading = false;
     },
     //Logout states
     [logout.fulfilled.type]: (state) => {

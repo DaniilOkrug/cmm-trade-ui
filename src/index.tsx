@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
-import { checkAuth } from "./store/reducers/ActionCreator";
 import App from "./App";
 
 const store = setupStore();
