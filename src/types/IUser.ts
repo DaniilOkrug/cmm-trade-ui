@@ -1,6 +1,7 @@
 export interface IUser {
-    email: string,
-    isActivated: boolean,
-    role: string,
-    id: string
+  id: string;
+  email: string;
+  role: string;
+  balance: number;
+  isActivated: boolean;
 }

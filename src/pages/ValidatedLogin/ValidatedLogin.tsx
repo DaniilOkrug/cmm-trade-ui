@@ -1,11 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import "./ValidatedLogin.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { login } from "../../store/reducers/ActionCreator";
 import { Formik } from "formik";
-import * as EmailValidator from "email-validator";
 import * as Yup from "yup";
 
 const ValidatedLogin: FC = () => {

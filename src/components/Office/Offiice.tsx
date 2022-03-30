@@ -1,6 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Office.css";
 import { Button, Container, Row, Col, Card, Table } from "react-bootstrap";
+import { BotsList, ModalCreateBot } from "..";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 
 interface TitleProps {
   title?: string;
@@ -8,13 +10,40 @@ interface TitleProps {
 }
 
 const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
+  const dispatch = useAppDispatch();
+  const { isLoadingBots, error } = useAppSelector(
+    (state) => state.userBotReducer
+  );
+
+  const [modalShow, setModalShow] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+
+  useEffect(() => {
+    document.title = "Главная";
+  }, []);
+
+  if (isLoadingBots && !updateModal) {
+    setUpdateModal(true);
+  }
+
+  if (updateModal && !isLoadingBots) {
+    if (error == "") {
+      setModalShow(false);
+      setUpdateModal(false);
+    }
+  }
+
   return (
     <Container fluid className="office">
       <Row className="accountActions">
         <div>
           <Button className="m-1">Пополнить</Button>
-          <Button className="m-1">Создать робота</Button>
-          <Button variant="danger" className="m-1">Остановить роботов</Button>
+          <Button className="m-1" onClick={() => setModalShow(true)}>
+            Создать робота
+          </Button>
+          <Button variant="danger" className="m-1">
+            Остановить роботов
+          </Button>
         </div>
       </Row>
 
@@ -72,56 +101,17 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
         <Col>
           <Card>
             <Card.Body>
-              <h4>Мои роботы</h4>
-
-              <hr />
-
-              <Row>
-                <Col>
-                  <p>Активные роботы: 0 из 0</p>
-                  <p></p>
-                </Col>
-                <Col>
-                  <p>Роботы с ошибкой: 0 из 0</p>
-                </Col>
-              </Row>
-
-              <Row>
-                <Table responsive>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Название</th>
-                      <th>Статус</th>
-                      <th>Состояние</th>
-                      <th>Биржа</th>
-                      <th>Циклы</th>
-                      <th>Сетка ордеров, % мартингейла</th>
-                      <th>Объем</th>
-                      <th>% Дохода</th>
-                      <th>Ошибка</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>test</td>
-                      <td>Ожидание</td>
-                      <td>Active</td>
-                      <td>Binance Futures</td>
-                      <td>132</td>
-                      <td>35, 1.1</td>
-                      <td>3500$</td>
-                      <td>11.4</td>
-                      <td>-</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Row>
+              <BotsList></BotsList>
             </Card.Body>
           </Card>
         </Col>
       </Row>
+      <ModalCreateBot
+        showModal={modalShow}
+        onHide={() => {
+          setModalShow(false);
+        }}
+      ></ModalCreateBot>
     </Container>
   );
 };

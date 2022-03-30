@@ -1,11 +1,17 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import "./API.css";
 import { Button } from "react-bootstrap";
 
-import { Apilist, ModalAddApi } from "../index";
+import { ApiList, ModalAddApi } from "../index";
+import { useAppSelector } from "../../hooks/redux";
 
 const API: FC = () => {
+  const { isLoading, error } = useAppSelector(
+    (state) => state.userReducer
+  );
+
   const [modalShow, setModalShow] = React.useState(false);
+
   return (
     <div>
       <div className="profile-api">
@@ -18,7 +24,7 @@ const API: FC = () => {
       <hr />
 
       <div className="profile-api-keys">
-        <Apilist />
+        <ApiList />
       </div>
 
       <ModalAddApi showModal={modalShow} onHide={() => setModalShow(false)} />

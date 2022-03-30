@@ -14,7 +14,7 @@ import { checkAuth } from "./store/reducers/ActionCreator";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const { user, isLoading, isAuth, error } = useAppSelector(
+  const { user, isAuth } = useAppSelector(
     (state) => state.userReducer
   );
 
@@ -27,12 +27,7 @@ const App: FC = () => {
     }
   }, []);
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
   if (isAuth) {
-    console.log(isAuth);
     console.log(user);
     
     switch (user?.role) {

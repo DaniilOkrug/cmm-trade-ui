@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import "./Profile.css";
 import {
   Card,
@@ -13,12 +13,10 @@ import {
 
 import { API } from "../index";
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-}
-
-const Profile: FC<TitleProps> = ({ title, subtitle, children }) => {
+const Profile: FC = () => {
+  useEffect(() => {
+    document.title = "Профиль";
+  }, []);
   return (
     <Container fluid className="profile p-3">
       <Card className="mb-3">

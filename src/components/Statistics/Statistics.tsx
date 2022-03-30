@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import "./Statistics.css";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
@@ -13,11 +13,6 @@ import {
   Tooltip,
 } from "chart.js";
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-}
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,7 +23,12 @@ ChartJS.register(
   Legend
 );
 
-const Statistics: FC<TitleProps> = ({ title, subtitle, children }) => {
+const Statistics: FC = () => {
+
+  useEffect(() => {
+    document.title = "Статистика";
+  }, []);
+
   const optionsGeneral = {
     responsive: true,
     plugins: {

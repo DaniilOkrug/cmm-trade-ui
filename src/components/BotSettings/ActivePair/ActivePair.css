@@ -1,0 +1,14 @@
+.active-pair {
+  display: inline-flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  padding: 0.3rem;
+  font-size: 14px;
+  margin: 0.1rem;
+}
+
+.active-pair p {
+  margin: 0;
+}
