@@ -124,7 +124,7 @@ const BotSettings: FC = () => {
                 }}
               >
                 <option value="Binance Spot">Binance Spot</option>
-                <option value="Binance Futures">Binance Futures</option>
+                {/* <option value="Binance Futures">Binance Futures</option> */}
               </Form.Select>
             </Col>
           </Row>
@@ -190,12 +190,12 @@ const BotSettings: FC = () => {
                 onChange={(e) => setAlgorithm(e.target.value)}
               >
                 <option value="long">Long</option>
-                <option value="short">Short</option>
+                {/* <option value="short">Short</option> */}
               </Form.Select>
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col>
               <p className="my-1">Плечо(Futures): </p>
             </Col>
@@ -220,7 +220,7 @@ const BotSettings: FC = () => {
                 <option value="2">Режим хэджирования</option>
               </Form.Select>
             </Col>
-          </Row>
+          </Row> */}
 
           <hr />
 

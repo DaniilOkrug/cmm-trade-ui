@@ -20,19 +20,19 @@ const BotsList: FC = () => {
     dispatch(getBots());
   }, []);
 
-  useEffect(() => {
-    const socket: Socket = io("http://localhost:5000");
-    setSocket(socket);
+  // useEffect(() => {
+  //   const socket: Socket = io("http://localhost:5000");
+  //   setSocket(socket);
 
-    socket.on("BOT_STATUS", (data) => {
-      dispatch(setBotData(data));
-    });
+  //   socket.on("BOT_STATUS", (data) => {
+  //     dispatch(setBotData(data));
+  //   });
 
-    return () => {
-      const close = () => socket.close();
-      close();
-    };
-  }, []);
+  //   return () => {
+  //     const close = () => socket.close();
+  //     close();
+  //   };
+  // }, []);
 
   const getActiveBotsNumber = () => {
     let botsNumber = 0;
