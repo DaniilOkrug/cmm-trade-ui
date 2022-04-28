@@ -77,7 +77,7 @@ export const checkAuth = createAsyncThunk(
       const response = await axios.get<AuthResponse>(`${URL}/refresh`, {
         withCredentials: true,
       });
-      console.log("Check auth response: " + response.data);
+      
       localStorage.setItem("token", response.data.accessToken);
 
       return response.data.user;
@@ -257,7 +257,8 @@ export const getBotSettings = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await UserService.getBotSettings();
-
+      console.log(response);
+      
       return response.data;
     } catch (err: any) {
       console.log(err);
@@ -280,6 +281,41 @@ export const sendBotSettings = createAsyncThunk(
       console.log(err);
 
       return thunkAPI.rejectWithValue("Ошибка отправки настроек робота!");
+    }
+  }
+);
+
+export const getBlackList = createAsyncThunk(
+  "bot/getBlackList",
+  async (_, thunkAPI) => {
+    try {
+      const response = await UserService.getBlackList();
+
+      console.log(response);
+
+      return response.data;
+    } catch (err: any) {
+      console.log(err);
+
+      return thunkAPI.rejectWithValue("Ошибка получения черного списка!");
+    }
+  }
+);
+
+
+export const setBlackList = createAsyncThunk(
+  "bot/setBlackList",
+  async (blacklist: string[], thunkAPI) => {
+    try {
+      const response = await UserService.setBlackList(blacklist);
+
+      console.log(response);
+
+      return response.data;
+    } catch (err: any) {
+      console.log(err);
+
+      return thunkAPI.rejectWithValue("Ошибка отправления черного списка!");
     }
   }
 );

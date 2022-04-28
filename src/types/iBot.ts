@@ -1,3 +1,5 @@
+import { IPumpDumpFilter } from "./IPumpDumpFilter";
+
 export interface IBot {
   pairs: Array<string>;
   exchange: string;
@@ -10,6 +12,16 @@ export interface IBot {
     priceChange: number;
     minPriceChangeNumber: number;
     minVolume: number;
+    rsi: {
+      enabled: boolean;
+      period: number;
+      timeframes: string[];
+      value: number;
+    };
+    pampAndDump: {
+      enabled: boolean;
+      filters: IPumpDumpFilter[];
+    };
   };
   grid: {
     size: number;

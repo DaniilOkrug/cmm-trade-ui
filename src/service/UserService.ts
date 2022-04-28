@@ -59,4 +59,18 @@ export default class UserService {
   static async stopBot(name: string): Promise<AxiosResponse<IUserBot[]>> {
     return $api.post<IUserBot[]>("/stopBot", { name });
   }
+
+  static async getBlackList(): Promise<
+    AxiosResponse<{ blacklist: string[]; spotPairs: [string] }>
+  > {
+    return $api.get<{ blacklist: string[]; spotPairs: [string] }>(
+      "/getBlackList"
+    );
+  }
+
+  static async setBlackList(
+    blacklist: string[]
+  ): Promise<AxiosResponse<{ blacklist: string[] }>> {
+    return $api.put<{ blacklist: string[] }>("/setBlackList", { blacklist });
+  }
 }

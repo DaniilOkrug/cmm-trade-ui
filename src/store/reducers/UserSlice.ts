@@ -50,7 +50,6 @@ export const userSlice = createSlice({
     },
     //Authentification states
     [checkAuth.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
-      console.log(action.payload);
       state.user = action.payload;
       state.isAuth = action.payload ? true : false;
       state.isLoading = false;

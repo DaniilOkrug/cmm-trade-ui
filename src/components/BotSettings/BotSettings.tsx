@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Card, Col, Row, Form, Button } from "react-bootstrap";
-import { ActivePair, Pairs } from ".";
+import { ActivePair, Pairs, PumpDumpFilter } from ".";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
   getBotSettings,
@@ -11,7 +11,13 @@ import {
   clearActivePairs,
   setCurrentPairsUpdate,
   recoverActivePairs,
+  addRsiTimeframe,
+  setRsiTimeframeUpdate,
+  setBotSettingsUpdate,
+  setPDFiltersUpdate,
 } from "../../store/reducers/BotSlice";
+import { IPumpDumpFilter } from "../../types/IPumpDumpFilter";
+import ActiveTimeframe from "./ActiveElement/ActiveTimeframe";
 import "./BotSettings.css";
 
 const BotSettings: FC = () => {
@@ -22,7 +28,11 @@ const BotSettings: FC = () => {
     spotPairs,
     futurePairs,
     currentPairs,
+    botSettingsUpdated,
     currentPairsUpdated,
+    rsiTimeframesUpdated,
+    PDFilterUpdated: PDFiltersUpdated,
+    timeframes,
     error,
   } = useAppSelector((state) => state.botReducer);
 
@@ -44,12 +54,27 @@ const BotSettings: FC = () => {
   const [newGridDelay, setNewGridDelay] = useState<number>(0);
   const [endCycleDelay, setEndCycleDelay] = useState<number>(0);
 
-  const [enabled, setEnabled] = useState<boolean>(false);
+  //Analyzer
+  const [enabledAnalyzer, setEnabledAnalyzer] = useState<boolean>(false);
   const [period, setPeriod] = useState<string>("");
   const [interval, setInterval] = useState<string>("");
   const [priceChange, setPriceChange] = useState<number>(0);
   const [minPriceChangeNumber, setMinPriceChangeNumber] = useState<number>(0);
   const [minVolume, setMinVolume] = useState<number>(0);
+
+  //RSI
+  const [enabledRsi, setEnabledRsi] = useState<boolean>(false);
+  const [rsiPeriod, setRsiPeriod] = useState<number>(0);
+  const [rsiValue, setRsiValue] = useState<number>(0);
+  const [rsiTimeframe, setRsiTimeframe] = useState<string>("");
+  const [rsiAvailableTimeframes, setRsiAvailableTimeframes] = useState<
+    string[]
+  >([]);
+  const [rsiTimeframes, setRsiTimeframes] = useState<string[]>([]);
+
+  //Filters
+  const [pumpFilters, setPumpFilters] = useState<IPumpDumpFilter[]>([]);
+  const [pumpFilterEnabled, setPumpFilterEnabled] = useState<boolean>(false);
 
   const handleCurrenPairsUpdate = () => {
     const currPairs = exchange === "Binance Spot" ? spotPairs : futurePairs;
@@ -60,36 +85,74 @@ const BotSettings: FC = () => {
     setPair(availablePairs[0]);
   };
 
-  useEffect(() => {
-    dispatch(getBotSettings()).then(() => {
-      if (!isLoadingBot && botSettings.grid) {
-        setExchange(botSettings.exchange);
-        setLeverage(botSettings.leverage);
-        setAlgorithm(botSettings.algorithm);
-        setOrdersNumber(botSettings.grid.ordersNumber);
-        setSize(botSettings.grid.size);
-        setMartingeil(botSettings.grid.martingeil);
-        setIndentFirstOrder(botSettings.grid.indentFirstOrder);
-        setProfit(botSettings.grid.profit);
-        setPriceFollow(botSettings.grid.priceFollow);
-        setPriceFollowDelay(botSettings.grid.priceFollowDelay);
-        setNewGridDelay(botSettings.grid.newGridDelay);
-        setEndCycleDelay(botSettings.grid.endCycleDelay);
-        setEnabled(botSettings.analyzer.enabled);
-        setPeriod(botSettings.analyzer.period);
-        setInterval(botSettings.analyzer.interval);
-        setPriceChange(botSettings.analyzer.priceChange);
-        setMinPriceChangeNumber(botSettings.analyzer.minPriceChangeNumber);
-        setMinVolume(botSettings.analyzer.minVolume);
+  const handleRsiTimeframesUpdate = () => {
+    const availableTimeframes = timeframes.filter(
+      (timeframe) => !botSettings.analyzer.rsi.timeframes.includes(timeframe)
+    );
 
-        handleCurrenPairsUpdate();
-      }
-    });
+    setRsiAvailableTimeframes(availableTimeframes);
+    setRsiTimeframe(availableTimeframes[0]);
+    setRsiTimeframes(botSettings.analyzer.rsi.timeframes);
+  };
+
+  useEffect(() => {
+    dispatch(getBotSettings());
   }, []);
+
+  if (botSettingsUpdated && !isLoadingBot) {
+    setExchange(botSettings.exchange);
+    setLeverage(botSettings.leverage);
+    setAlgorithm(botSettings.algorithm);
+
+    if (botSettings.grid) {
+      setOrdersNumber(botSettings.grid.ordersNumber);
+      setSize(botSettings.grid.size);
+      setMartingeil(botSettings.grid.martingeil);
+      setIndentFirstOrder(botSettings.grid.indentFirstOrder);
+      setProfit(botSettings.grid.profit);
+      setPriceFollow(botSettings.grid.priceFollow);
+      setPriceFollowDelay(botSettings.grid.priceFollowDelay);
+      setNewGridDelay(botSettings.grid.newGridDelay);
+      setEndCycleDelay(botSettings.grid.endCycleDelay);
+    }
+
+    if (botSettings.analyzer) {
+      setEnabledAnalyzer(botSettings.analyzer.enabled);
+      setPeriod(botSettings.analyzer.period);
+      setInterval(botSettings.analyzer.interval);
+      setPriceChange(botSettings.analyzer.priceChange);
+      setMinPriceChangeNumber(botSettings.analyzer.minPriceChangeNumber);
+      setMinVolume(botSettings.analyzer.minVolume);
+
+      setEnabledRsi(botSettings.analyzer.rsi.enabled);
+      setRsiPeriod(botSettings.analyzer.rsi.period);
+      setRsiValue(botSettings.analyzer.rsi.value);
+      setRsiTimeframes(botSettings.analyzer.rsi.timeframes);
+
+      setPumpFilterEnabled(botSettings.analyzer.pampAndDump.enabled);
+      setPumpFilters(botSettings.analyzer.pampAndDump.filters);
+    }
+
+    handleCurrenPairsUpdate();
+    handleRsiTimeframesUpdate();
+
+    dispatch(setBotSettingsUpdate(false));
+  }
 
   if (currentPairsUpdated) {
     handleCurrenPairsUpdate();
     dispatch(setCurrentPairsUpdate(false));
+  }
+
+  if (rsiTimeframesUpdated) {
+    handleRsiTimeframesUpdate();
+    dispatch(setRsiTimeframeUpdate(false));
+  }
+
+  if (PDFiltersUpdated) {
+    setPumpFilterEnabled(botSettings.analyzer.pampAndDump.enabled);
+    setPumpFilters(botSettings.analyzer.pampAndDump.filters);
+    dispatch(setPDFiltersUpdate(false));
   }
 
   if (isLoadingBot) {
@@ -169,7 +232,7 @@ const BotSettings: FC = () => {
                 <p>Актвиные пары:</p>
                 <div className="active-pairs">
                   {currentPairs.map((pair) => (
-                    <ActivePair pair={pair}></ActivePair>
+                    <ActivePair key={pair} pair={pair}></ActivePair>
                   ))}
                 </div>
               </Row>
@@ -330,10 +393,8 @@ const BotSettings: FC = () => {
             </Row>
           </Row>
 
-          <hr />
-
           <Row>
-            <h4 className="mb-3">Дополнительные настройки</h4>
+            <h5 className="mb-3">Дополнительные настройки</h5>
 
             <Row>
               <Col>
@@ -392,8 +453,8 @@ const BotSettings: FC = () => {
                 <Form.Check
                   type="checkbox"
                   label="Включить"
-                  checked={enabled}
-                  onChange={(e) => setEnabled(e.target.checked)}
+                  checked={enabledAnalyzer}
+                  onChange={(e) => setEnabledAnalyzer(e.target.checked)}
                 />
               </Form.Group>
             </Row>
@@ -495,6 +556,114 @@ const BotSettings: FC = () => {
               </Col>
               <Col></Col>
             </Row>
+
+            <Row>
+              <h5 className="mb-3">RSI</h5>
+
+              <Row>
+                <Row>
+                  <Form.Group className="mb-3" controlId="enabled">
+                    <Form.Check
+                      type="checkbox"
+                      label="Включить"
+                      checked={enabledRsi}
+                      onChange={(e) => setEnabledRsi(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Row>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Row>
+                    <Col>
+                      <p className="my-1">Период:</p>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        className="mb-3"
+                        type="number"
+                        value={rsiPeriod}
+                        onChange={(e) => setRsiPeriod(Number(e.target.value))}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col>
+                  <Row>
+                    <Col>
+                      <p className="my-1">Значение:</p>
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        className="mb-3"
+                        type="number"
+                        value={rsiValue}
+                        onChange={(e) => setRsiValue(Number(e.target.value))}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <p className="my-1">Таймфреймы: </p>
+                </Col>
+                <Col>
+                  <Row>
+                    <Col>
+                      <Form.Select
+                        aria-label="timeframes"
+                        className="mb-3"
+                        id="timeframes"
+                        value={rsiTimeframe}
+                        onChange={(e) => {
+                          setRsiTimeframe(e.target.value);
+                        }}
+                      >
+                        <Pairs pairs={rsiAvailableTimeframes}></Pairs>
+                      </Form.Select>
+                    </Col>
+                    <Col>
+                      <Button
+                        onClick={() => dispatch(addRsiTimeframe(rsiTimeframe))}
+                      >
+                        Добавить
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col></Col>
+                <Col></Col>
+              </Row>
+
+              <div>
+                <Row>
+                  <p>Текущие таймфреймы:</p>
+                </Row>
+                <Row>
+                  <div>
+                    {rsiTimeframes.map((timeframe) => (
+                      <ActiveTimeframe
+                        key={timeframe}
+                        timeframe={timeframe}
+                      ></ActiveTimeframe>
+                    ))}
+                  </div>
+                </Row>
+              </div>
+            </Row>
+
+            <Row>
+              <h5 className="mb-3 mt-3">Pump\Dump</h5>
+
+              <PumpDumpFilter
+                enabled={pumpFilterEnabled}
+                filters={pumpFilters}
+              ></PumpDumpFilter>
+            </Row>
           </Row>
 
           <hr />
@@ -513,12 +682,22 @@ const BotSettings: FC = () => {
                     leverage: leverage,
                     algorithm: algorithm,
                     analyzer: {
-                      enabled: enabled,
+                      enabled: enabledAnalyzer,
                       period: period,
                       interval: interval,
                       priceChange: priceChange,
                       minPriceChangeNumber: minPriceChangeNumber,
                       minVolume: minVolume,
+                      rsi: {
+                        enabled: enabledRsi,
+                        period: rsiPeriod,
+                        value: rsiValue,
+                        timeframes: rsiTimeframes,
+                      },
+                      pampAndDump: {
+                        enabled: pumpFilterEnabled,
+                        filters: pumpFilters,
+                      },
                     },
                     grid: {
                       size: size,

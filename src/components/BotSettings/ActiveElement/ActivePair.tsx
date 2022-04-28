@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { CloseButton } from "react-bootstrap";
 import { useAppDispatch } from "../../../hooks/redux";
 import { deleteActivePair } from "../../../store/reducers/BotSlice";
-import "./ActivePair.css";
+import "./ActiveElement.css";
 
 interface props {
   pair: string;
@@ -11,7 +11,7 @@ interface props {
 const ActivePair: FC<props> = ({ pair }) => {
   const dispatch = useAppDispatch();
   return (
-    <div className="active-pair bg-primary align-middle rounded">
+    <div className="active-element bg-primary align-middle rounded">
       <p>{pair}</p>
       <CloseButton
         variant="white"

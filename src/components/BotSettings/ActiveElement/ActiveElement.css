@@ -1,4 +1,4 @@
-.active-pair {
+.active-element {
   display: inline-flex;
   color: white;
   align-items: center;
@@ -9,6 +9,6 @@
   margin: 0.1rem;
 }
 
-.active-pair p {
+.active-element p {
   margin: 0;
 }

@@ -79,7 +79,7 @@ const BotsList: FC = () => {
           <tbody>
             {bots.length > 0 &&
               bots.map((bot, index) => (
-                <tr>
+                <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{bot.name}</td>
                   <td>{bot.status}</td>

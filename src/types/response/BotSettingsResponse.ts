@@ -1,6 +1,10 @@
+import { BooleanSchema } from "yup";
+import { IPumpDumpFilter } from "../IPumpDumpFilter";
+
 export interface BotSettingsResponse {
   futuresPairs: [string];
   spotPairs: [string];
+  timeframes: [string];
   settings: {
     pairs: Array<string>;
     exchange: string;
@@ -13,6 +17,16 @@ export interface BotSettingsResponse {
       priceChange: number;
       minPriceChangeNumber: number;
       minVolume: number;
+      rsi: {
+        enabled: boolean;
+        period: number;
+        timeframes: [string];
+        value: number;
+      };
+      pampAndDump: {
+        enabled: boolean;
+        filters: IPumpDumpFilter[];
+      };
     };
     grid: {
       size: number;
