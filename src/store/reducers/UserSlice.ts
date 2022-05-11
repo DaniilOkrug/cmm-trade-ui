@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IApi } from "../../types/IApi";
 import { IUser } from "../../types/IUser";
 import { ApiResponse } from "../../types/response/ApiResponse";
+import { RejectedWithValueAction } from "../../types/response/RejectWithValue";
 import {
   addApi,
   checkApi,
@@ -18,7 +19,9 @@ interface UserState {
   apiList: IApi[];
   isLoading: boolean;
   isAuth: boolean;
-  error: string;
+  isApiChecked: boolean;
+  isUserError: boolean;
+  userError: string;
 }
 
 const initialState: UserState = {
@@ -26,19 +29,29 @@ const initialState: UserState = {
   apiList: [],
   isLoading: false,
   isAuth: false,
-  error: "",
+  isApiChecked: false,
+  isUserError: false,
+  userError: "",
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setApiChecked(state, action: PayloadAction<boolean>) {
+      state.isApiChecked = action.payload;
+    },
+    setErrotStatus(state, action: PayloadAction<boolean>) {
+      state.isUserError = action.payload;
+      state.isApiChecked = action.payload;
+    },
+  },
   extraReducers: {
     //Login states
     [login.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isAuth = action.payload ? true : false;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
       state.user = action.payload;
     },
     [login.pending.type]: (state) => {
@@ -46,14 +59,14 @@ export const userSlice = createSlice({
     },
     [login.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.userError = action.payload;
     },
     //Authentification states
     [checkAuth.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
       state.isAuth = action.payload ? true : false;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
     },
     [checkAuth.pending.type]: (state) => {
       state.isLoading = true;
@@ -68,7 +81,7 @@ export const userSlice = createSlice({
       state.user = {} as IUser;
       state.isAuth = false;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
     },
     [logout.pending.type]: (state) => {
       state.isLoading = true;
@@ -83,7 +96,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
       state.isAuth = action.payload ? true : false;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
     },
     [registration.pending.type]: (state) => {
       state.isLoading = true;
@@ -97,26 +110,26 @@ export const userSlice = createSlice({
     [addApi.fulfilled.type]: (state, action: PayloadAction<IApi[]>) => {
       state.apiList = action.payload;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
     },
     [addApi.pending.type]: (state) => {
       state.isLoading = true;
     },
     [addApi.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+      state.userError = action.payload;
       state.isLoading = false;
     },
     //getApiList states
     [getApiList.fulfilled.type]: (state, action: PayloadAction<IApi[]>) => {
       state.apiList = action.payload;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
     },
     [getApiList.pending.type]: (state) => {
       state.isLoading = true;
     },
     [getApiList.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+      state.userError = action.payload;
       state.apiList = [];
       state.isLoading = false;
     },
@@ -124,28 +137,33 @@ export const userSlice = createSlice({
     [deleteApi.fulfilled.type]: (state, action: PayloadAction<IApi[]>) => {
       state.apiList = action.payload;
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
     },
     [deleteApi.pending.type]: (state) => {
       state.isLoading = true;
     },
     [deleteApi.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+      state.userError = action.payload;
       state.isLoading = false;
     },
     //checkApi states
     [checkApi.fulfilled.type]: (state, action: PayloadAction<ApiResponse>) => {
       state.isLoading = false;
-      state.error = "";
+      state.userError = "";
+      state.isApiChecked = true;
     },
     [checkApi.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [checkApi.rejected.type]: (state, action: PayloadAction<IApi[]>) => {
-      state.apiList = action.payload;
+    [checkApi.rejected.type]: (state, action: RejectedWithValueAction<string>) => {
       state.isLoading = false;
+      state.isApiChecked = true;
+      state.isUserError = true;
+      state.userError = action.payload;
     },
   },
 });
+
+export const { setApiChecked, setErrotStatus } = userSlice.actions;
 
 export default userSlice.reducer;

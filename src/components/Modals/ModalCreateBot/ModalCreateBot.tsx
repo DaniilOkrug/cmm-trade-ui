@@ -6,11 +6,16 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import {
   createBot,
   getApiList,
-  getBots,
   getBotSettings,
 } from "../../../store/reducers/ActionCreator";
 import "./ModalCreateBot.css";
-import { deleteError } from "../../../store/reducers/UserBotSlice";
+import {
+  deleteError,
+  setLastActionType,
+  setUserBotErrorStatus,
+} from "../../../store/reducers/UserBotSlice";
+import { toast } from "react-toastify";
+import { UserBotActionType } from "../../../types/UserBotActionType";
 
 interface Props {
   showModal: boolean;
@@ -19,14 +24,13 @@ interface Props {
 
 const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
   const dispatch = useAppDispatch();
+
   const { apiList, user, isAuth } = useAppSelector(
     (state) => state.userReducer
   );
-  const { currentPairs, isLoadingBot } = useAppSelector(
-    (state) => state.botReducer
-  );
+  const { isLoadingBot } = useAppSelector((state) => state.botReducer);
 
-  const { isLoadingBots, error } = useAppSelector(
+  const { userBotError, isUserBotError, lastActionType } = useAppSelector(
     (state) => state.userBotReducer
   );
 
@@ -35,9 +39,30 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
     deposit: Yup.number()
       .required("Депозит должен быть введен!")
       .min(1, "Депозит должен быть положительным!"),
-    name: Yup.string()
-        .required("Нзавние должны быть введено!")
+    name: Yup.string().required("Нзавние должны быть введено!"),
   });
+
+  const notifySuccess = () =>
+    toast.success("Робот создан!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
+
+  const notifyError = () =>
+    toast.error(userBotError, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
 
   useEffect(() => {
     dispatch(getBotSettings()).then(() => {});
@@ -46,6 +71,30 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
       dispatch(getApiList(user.id)).then(() => {});
     }
   }, []);
+
+  useEffect(() => {
+    if (!isLoadingBot) {
+      if (isUserBotError) {
+        notifyError();
+        dispatch(setUserBotErrorStatus(false));
+      } else {
+        if (lastActionType === UserBotActionType.createBot) {
+          notifySuccess();
+        }
+      }
+    }
+
+  }, [lastActionType]);
+
+  const handleCreationBot = (name: string, key: string, deposit: number) => {
+    dispatch(
+      createBot({
+        name,
+        key,
+        deposit,
+      })
+    );
+  };
 
   return (
     <div>
@@ -86,8 +135,8 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
                 </Modal.Header>
                 <Modal.Body>
                   <Row>
-                    {error && (
-                      <div className="input-feedback pb-3">{error}</div>
+                    {userBotError && (
+                      <div className="input-feedback pb-3">{userBotError}</div>
                     )}
                   </Row>
                   <Row className="mb-3">
@@ -103,9 +152,7 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
                             onChange={handleChange}
                           />
                           {errors.deposit && (
-                            <div className="input-feedback">
-                              {errors.name}
-                            </div>
+                            <div className="input-feedback">{errors.name}</div>
                           )}
                         </div>
                       </Row>
@@ -160,15 +207,9 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
                   </Button>
                   <Button
                     disabled={!isValid || isSubmitting || isLoadingBot}
-                    onClick={() => {
-                      dispatch(
-                        createBot({
-                          name: values.name,
-                          key: values.key,
-                          deposit: values.deposit,
-                        })
-                      );
-                    }}
+                    onClick={() =>
+                      handleCreationBot(values.name, values.key, values.deposit)
+                    }
                   >
                     Добавить
                   </Button>

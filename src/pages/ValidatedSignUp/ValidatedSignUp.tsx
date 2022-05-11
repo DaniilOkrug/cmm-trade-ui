@@ -12,14 +12,12 @@ import {
   FormCheck,
 } from "react-bootstrap";
 import Menu from "../../components/Menu/Menu";
-import { login, registration } from "../../store/reducers/ActionCreator";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { registration } from "../../store/reducers/ActionCreator";
+import { useAppDispatch } from "../../hooks/redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 const ValidatedSignUp: FC = () => {
-  const { error } = useAppSelector((state) => state.userReducer);
-
   const dispatch = useAppDispatch();
 
   const initialValues = {
@@ -58,7 +56,6 @@ const ValidatedSignUp: FC = () => {
               dispatch(
                 registration({ email: values.email, password: values.password })
               );
-            } else {
             }
           }, 500);
         }}
@@ -146,7 +143,7 @@ const ValidatedSignUp: FC = () => {
                               {errors.passwordAgain}
                             </div>
                           )}
-                          {values.password != values.passwordAgain && (
+                          {values.password !== values.passwordAgain && (
                             <div className="input-feedback">
                               Пароли не совпадают
                             </div>
@@ -179,7 +176,7 @@ const ValidatedSignUp: FC = () => {
                             disabled={
                               !isValid ||
                               isSubmitting ||
-                              values.password != values.passwordAgain
+                              values.password !== values.passwordAgain
                             }
                           >
                             Создать аккаунт

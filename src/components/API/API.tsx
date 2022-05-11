@@ -1,16 +1,35 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import "./API.css";
 import { Button } from "react-bootstrap";
-
 import { ApiList, ModalAddApi } from "../index";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { toast } from "react-toastify";
+import { setApiChecked } from "../../store/reducers/UserSlice";
 
 const API: FC = () => {
-  const { isLoading, error } = useAppSelector(
+  const dispatch = useAppDispatch();
+  const { isApiChecked, isUserError: isError } = useAppSelector(
     (state) => state.userReducer
   );
 
   const [modalShow, setModalShow] = React.useState(false);
+
+  const notifySuccess = () =>
+    toast.success("API проверен!", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+  if (isApiChecked && !isError) {
+    notifySuccess();
+    dispatch(setApiChecked(false));
+    console.log("isApiChecked", isApiChecked);
+  }
 
   return (
     <div>

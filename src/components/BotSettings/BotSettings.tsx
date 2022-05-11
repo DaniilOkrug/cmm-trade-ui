@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Card, Col, Row, Form, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { ActivePair, Pairs, PumpDumpFilter } from ".";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
@@ -33,7 +34,8 @@ const BotSettings: FC = () => {
     rsiTimeframesUpdated,
     PDFilterUpdated: PDFiltersUpdated,
     timeframes,
-    error,
+    isBotError,
+    botError: error,
   } = useAppSelector((state) => state.botReducer);
 
   const [exchange, setExchange] = useState<string>("Binance Spot");
@@ -153,6 +155,79 @@ const BotSettings: FC = () => {
     setPumpFilterEnabled(botSettings.analyzer.pampAndDump.enabled);
     setPumpFilters(botSettings.analyzer.pampAndDump.filters);
     dispatch(setPDFiltersUpdate(false));
+  }
+
+  const notifySuccess = () =>
+    toast.success("Настройки сохранены!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
+
+  const notifyError = () =>
+    toast.error(error, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+
+  const hadleSaveSettings = () => {
+    const answer = window.confirm(
+      "Вы уверены, что хотите сохранить настрйоки?"
+    );
+
+    if (answer) {
+      const settings = {
+        pairs: currentPairs,
+        exchange: exchange,
+        leverage: leverage,
+        algorithm: algorithm,
+        analyzer: {
+          enabled: enabledAnalyzer,
+          period: period,
+          interval: interval,
+          priceChange: priceChange,
+          minPriceChangeNumber: minPriceChangeNumber,
+          minVolume: minVolume,
+          rsi: {
+            enabled: enabledRsi,
+            period: rsiPeriod,
+            value: rsiValue,
+            timeframes: rsiTimeframes,
+          },
+          pampAndDump: {
+            enabled: pumpFilterEnabled,
+            filters: pumpFilters,
+          },
+        },
+        grid: {
+          size: size,
+          ordersNumber: ordersNumber,
+          martingeil: martingeil,
+          indentFirstOrder: indentFirstOrder,
+          profit: profit,
+          priceFollow: priceFollow,
+          priceFollowDelay: priceFollowDelay,
+          newGridDelay: newGridDelay,
+          endCycleDelay: endCycleDelay,
+        },
+      };
+      dispatch(sendBotSettings(settings)).then(() => {
+        if (isBotError) {
+          notifyError();
+        } else {
+          notifySuccess();
+        }
+      });
+    }
   }
 
   if (isLoadingBot) {
@@ -669,52 +744,7 @@ const BotSettings: FC = () => {
           <hr />
 
           <div className="d-flex justify-content-end">
-            <Button
-              className="px-4"
-              onClick={() => {
-                const answer = window.confirm(
-                  "Вы уверены, что хотите сохранить настрйоки?"
-                );
-                if (answer) {
-                  const settings = {
-                    pairs: currentPairs,
-                    exchange: exchange,
-                    leverage: leverage,
-                    algorithm: algorithm,
-                    analyzer: {
-                      enabled: enabledAnalyzer,
-                      period: period,
-                      interval: interval,
-                      priceChange: priceChange,
-                      minPriceChangeNumber: minPriceChangeNumber,
-                      minVolume: minVolume,
-                      rsi: {
-                        enabled: enabledRsi,
-                        period: rsiPeriod,
-                        value: rsiValue,
-                        timeframes: rsiTimeframes,
-                      },
-                      pampAndDump: {
-                        enabled: pumpFilterEnabled,
-                        filters: pumpFilters,
-                      },
-                    },
-                    grid: {
-                      size: size,
-                      ordersNumber: ordersNumber,
-                      martingeil: martingeil,
-                      indentFirstOrder: indentFirstOrder,
-                      profit: profit,
-                      priceFollow: priceFollow,
-                      priceFollowDelay: priceFollowDelay,
-                      newGridDelay: newGridDelay,
-                      endCycleDelay: endCycleDelay,
-                    },
-                  };
-                  dispatch(sendBotSettings(settings));
-                }
-              }}
-            >
+            <Button className="px-4" onClick={() => hadleSaveSettings()}>
               Сохранить
             </Button>
           </div>

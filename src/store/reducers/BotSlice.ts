@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBot } from "../../types/iBot";
 import { IPumpDumpFilter } from "../../types/IPumpDumpFilter";
 import { BotSettingsResponse } from "../../types/response/BotSettingsResponse";
+import { RejectedWithValueAction } from "../../types/response/RejectWithValue";
 import { getBlackList, getBotSettings, sendBotSettings } from "./ActionCreator";
 
 interface BotState {
@@ -16,8 +17,10 @@ interface BotState {
   rsiTimeframesUpdated: boolean; //For settings
   PDFilterUpdated: boolean; //For settings
   blacklistUpdated: boolean; // For blacklist
+  isSettingsSaved: boolean;
   isLoadingBot: boolean;
-  error: string;
+  isBotError: boolean;
+  botError: string;
 }
 
 const initialState: BotState = {
@@ -32,8 +35,10 @@ const initialState: BotState = {
   rsiTimeframesUpdated: false,
   PDFilterUpdated: false,
   blacklistUpdated: false,
+  isSettingsSaved: false,
   isLoadingBot: false,
-  error: "",
+  isBotError: false,
+  botError: "",
 };
 
 export const botSlice = createSlice({
@@ -154,29 +159,43 @@ export const botSlice = createSlice({
       state.currentPairs = action.payload.settings.pairs.sort();
       state.botSettings = action.payload.settings;
       state.timeframes = action.payload.timeframes;
-      state.error = "";
+      state.botError = "";
       state.isLoadingBot = false;
       state.botSettingsUpdated = true;
     },
     [getBotSettings.pending.type]: (state) => {
       state.isLoadingBot = true;
+      state.isBotError = false;
+      state.botError = "";
     },
-    [getBotSettings.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+    [getBotSettings.rejected.type]: (
+      state,
+      action: RejectedWithValueAction<string>
+    ) => {
+      state.botError = action.payload;
+      state.isBotError = true;
       state.isLoadingBot = false;
     },
     //sendBotSettings states
     [sendBotSettings.fulfilled.type]: (state, action: PayloadAction<IBot>) => {
       state.currentPairs = action.payload.pairs.sort();
       state.botSettings = action.payload;
-      state.error = "";
+      state.botError = "";
+      state.isSettingsSaved = true;
       state.isLoadingBot = false;
     },
     [sendBotSettings.pending.type]: (state) => {
       state.isLoadingBot = true;
+      state.isBotError = false;
+      state.botError = "";
     },
-    [sendBotSettings.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+    [sendBotSettings.rejected.type]: (
+      state,
+      action: RejectedWithValueAction<string>
+    ) => {
+      state.botError = action.payload;
+      state.isSettingsSaved = true;
+      state.isBotError = true;
       state.isLoadingBot = false;
     },
     //getBlackList
@@ -186,15 +205,21 @@ export const botSlice = createSlice({
     ) => {
       state.blacklist = action.payload.blacklist.sort();
       state.spotPairs = action.payload.spotPairs.sort();
-      state.error = "";
+      state.botError = "";
       state.isLoadingBot = false;
       state.blacklistUpdated = true;
     },
     [getBlackList.pending.type]: (state) => {
       state.isLoadingBot = true;
+      state.isBotError = false;
+      state.botError = "";
     },
-    [getBlackList.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+    [getBlackList.rejected.type]: (
+      state,
+      action: RejectedWithValueAction<string>
+    ) => {
+      state.botError = action.payload;
+      state.isBotError = true;
       state.isLoadingBot = false;
     },
   },

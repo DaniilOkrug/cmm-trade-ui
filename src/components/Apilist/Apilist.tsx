@@ -33,10 +33,11 @@ const ApiList: FC = () => {
     }
   }, []);
 
-  return (
-    <div className="api">
-      {isLoading && <p>Загрузка...</p>}
-      {!isLoading && (
+  if (isLoading) {
+    return <p>Загрузка...</p>;
+  } else {
+    return (
+      <div className="api">
         <Table responsive>
           <thead>
             <tr>
@@ -50,9 +51,9 @@ const ApiList: FC = () => {
           </thead>
           <tbody>{List}</tbody>
         </Table>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 export default ApiList;

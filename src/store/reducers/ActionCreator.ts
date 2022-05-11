@@ -64,7 +64,8 @@ export const registration = createAsyncThunk(
       console.log(response.data);
 
       return response.data.user;
-    } catch (err) {
+    } catch (err: any) {
+      console.error(err.response.data.message);
       return thunkAPI.rejectWithValue("Не удалось зарегистрироваться!");
     }
   }
@@ -82,8 +83,7 @@ export const checkAuth = createAsyncThunk(
 
       return response.data.user;
     } catch (err: any) {
-      console.log(err);
-
+      console.error(err.response.data.messageu);
       return thunkAPI.rejectWithValue("Ошибка авторизации!");
     }
   }
@@ -104,8 +104,7 @@ export const addApi = createAsyncThunk(
 
       return response.data;
     } catch (err: any) {
-      console.log(err);
-
+      console.error(err.response.data.message);
       return thunkAPI.rejectWithValue(err.response.data.message);
     }
   }
@@ -121,8 +120,7 @@ export const deleteApi = createAsyncThunk(
 
       return response.data;
     } catch (err: any) {
-      console.log(err);
-
+      console.error(err.response.data.message);
       return thunkAPI.rejectWithValue(err.response.data.message);
     }
   }
@@ -138,8 +136,7 @@ export const checkApi = createAsyncThunk(
 
       return response.data;
     } catch (err: any) {
-      console.log(err);
-
+      console.error(err.response.data.message);
       return thunkAPI.rejectWithValue(err.response.data.message);
     }
   }
@@ -164,8 +161,6 @@ export const getBots = createAsyncThunk("user/getBots", async (_, thunkAPI) => {
   try {
     const response = await UserService.getBots();
 
-    console.log(response.data);
-
     return response.data;
   } catch (err: any) {
     console.log(err);
@@ -188,8 +183,7 @@ export const createBot = createAsyncThunk(
 
       return response.data;
     } catch (err: any) {
-      console.log(err);
-
+      console.log(err.response.data.message);
       return thunkAPI.rejectWithValue(err.response.data.message);
     }
   }

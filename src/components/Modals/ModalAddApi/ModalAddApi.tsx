@@ -11,7 +11,7 @@ interface TitleProps {
 
 const ModalAddApi: FC<TitleProps> = ({ showModal, onHide, children }) => {
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector(
+  const { isLoading, userError: error } = useAppSelector(
     (state) => state.userReducer
   );
 

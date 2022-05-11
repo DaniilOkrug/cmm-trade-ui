@@ -8,6 +8,7 @@ import {
   Card,
   Form,
 } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getBlackList, setBlackList } from "../../store/reducers/ActionCreator";
 import {
@@ -19,15 +20,43 @@ import "./CoinsBlackList.css";
 
 const CoinsBlackList: FC = () => {
   const dispatch = useAppDispatch();
-  const { spotPairs, blacklist, blacklistUpdated, isLoadingBot } =
+  const { spotPairs, blacklist, blacklistUpdated, isLoadingBot, isBotError, botError } =
     useAppSelector((state) => state.botReducer);
 
   const [pair, setPair] = useState<string>("");
   const [pairsList, setPairsList] = useState<string[]>([]);
   const [pairsBlackList, setPairsBlackList] = useState<string[]>([]);
 
+  const notifySuccess = () =>
+    toast.success("Список сохранен!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
+
+  const notifyError = () =>
+    toast.error(botError, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+
   const handleSave = () => {
-    dispatch(setBlackList(pairsBlackList));
+    dispatch(setBlackList(pairsBlackList)).then(() => {
+      if (isBotError) {
+        notifyError();
+      } else {
+        notifySuccess();
+      }
+    });
   }
 
   useEffect(() => {

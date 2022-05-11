@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 const ValidatedLogin: FC = () => {
-  const { error } = useAppSelector((state) => state.userReducer);
+  const { userError: error } = useAppSelector((state) => state.userReducer);
 
   const dispatch = useAppDispatch();
 

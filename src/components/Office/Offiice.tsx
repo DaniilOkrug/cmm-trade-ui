@@ -11,7 +11,7 @@ interface TitleProps {
 
 const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
   const dispatch = useAppDispatch();
-  const { isLoadingBots, error } = useAppSelector(
+  const { isLoadingBots, userBotError: error } = useAppSelector(
     (state) => state.userBotReducer
   );
 
