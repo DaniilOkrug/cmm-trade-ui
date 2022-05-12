@@ -3,6 +3,7 @@ import "./Office.css";
 import { Button, Container, Row, Col, Card, Table } from "react-bootstrap";
 import { BotsList, ModalCreateBot } from "..";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { stopAllBots } from "../../store/reducers/ActionCreator";
 
 interface TitleProps {
   title?: string;
@@ -33,6 +34,13 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
     }
   }
 
+  const handleStopAllBots = () => {
+    const answer = window.confirm(
+      "Вы уверены, что хотите остановить всех роботов?"
+    );
+    if (answer) dispatch(stopAllBots());
+  }
+
   return (
     <Container fluid className="office">
       <Row className="accountActions">
@@ -41,8 +49,8 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
           <Button className="m-1" onClick={() => setModalShow(true)}>
             Создать робота
           </Button>
-          <Button variant="danger" className="m-1">
-            Остановить роботов
+          <Button variant="danger" className="m-1" onClick={() => handleStopAllBots()}>
+            Остановить всех роботов
           </Button>
         </div>
       </Row>

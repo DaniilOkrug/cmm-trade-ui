@@ -36,12 +36,26 @@ const BotsList: FC = () => {
 
   const getActiveBotsNumber = () => {
     let botsNumber = 0;
-    bots.forEach((bot) => {
-      if (bot.status != "Disabled") botsNumber++;
-    });
+    for (const bot of bots) {
+      if (
+        bot.status === "Active" ||
+        bot.status === "Wait" ||
+        bot.status === "Stopping"
+      )
+        botsNumber++;
+    }
 
     return botsNumber;
   };
+
+  const getErrorBotsNumber = () => {
+    let botsNumber = 0;
+    for (const bot of bots) {
+      if (bot.status === "Error") botsNumber++;
+    }
+
+    return botsNumber;
+  }
 
   return (
     <>
@@ -57,7 +71,9 @@ const BotsList: FC = () => {
           <p></p>
         </Col>
         <Col>
-          <p>Роботы с ошибкой: 0 из {bots.length}</p>
+          <p>
+            Роботы с ошибкой: {getErrorBotsNumber()} из {bots.length}
+          </p>
         </Col>
       </Row>
 
@@ -72,6 +88,7 @@ const BotsList: FC = () => {
               <th>Биржа</th>
               <th>Депозит</th>
               <th>% Дохода</th>
+              <th>API</th>
               <th>Ошибка</th>
               <th>Действия</th>
             </tr>
@@ -87,6 +104,7 @@ const BotsList: FC = () => {
                   <td>{bot.exchange}</td>
                   <td>{bot.deposit}</td>
                   <td>{bot.profit}</td>
+                  <td>{bot.API}</td>
                   <td>{bot.error}</td>
                   <td>
                     <div className="d-flex flex-row">

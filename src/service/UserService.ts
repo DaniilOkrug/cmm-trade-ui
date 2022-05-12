@@ -60,6 +60,10 @@ export default class UserService {
     return $api.post<IUserBot[]>("/stopBot", { name });
   }
 
+  static stopAllBots(): Promise<AxiosResponse<any>> {
+    return $api.get<any>("/stopAllBots");
+  }
+
   static async getBlackList(): Promise<
     AxiosResponse<{ blacklist: string[]; spotPairs: [string] }>
   > {

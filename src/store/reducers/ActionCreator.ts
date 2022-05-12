@@ -228,10 +228,29 @@ export const startBot = createAsyncThunk(
 );
 
 export const stopBot = createAsyncThunk(
-  "user/starstopBottBot",
+  "user/stopBot",
   async (name: string, thunkAPI) => {
     try {
       const response = await UserService.stopBot(name);
+
+      console.log(response.data);
+
+      return response.data;
+    } catch (err: any) {
+      console.log(err);
+
+      return thunkAPI.rejectWithValue(
+        "Ошибка получения пользователих роботов!"
+      );
+    }
+  }
+);
+
+export const stopAllBots = createAsyncThunk(
+  "user/stopAllBot",
+  async (_, thunkAPI) => {
+    try {
+      const response = await UserService.stopAllBots();
 
       console.log(response.data);
 

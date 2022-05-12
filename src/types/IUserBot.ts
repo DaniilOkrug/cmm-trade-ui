@@ -5,5 +5,6 @@ export interface IUserBot {
   deposit: number;
   exchange: string;
   profit: number;
+  API: string;
   error: string;
 }
