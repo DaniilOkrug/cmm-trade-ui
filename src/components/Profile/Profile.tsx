@@ -8,28 +8,38 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Form,
 } from "react-bootstrap";
-
 import { API } from "../index";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { getConfirmLetter } from "../../store/reducers/ActionCreator";
 
 const Profile: FC = () => {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.userReducer);
+
   useEffect(() => {
     document.title = "Профиль";
   }, []);
+
+  const handleEmailConfirm = () => {
+    const isYes = window.confirm("Отправить письмо с подтверждением почты?");
+    if (isYes) dispatch(getConfirmLetter());
+  };
+
   return (
     <Container fluid className="profile p-3">
       <Card className="mb-3">
         <Card.Body>
           <h3>Информация об аккаунте</h3>
 
+          {!user.isActivated && <p className="error">Почта не подтверждена</p>}
+
           <hr />
 
           <div className="profile-general">
             <p>Статус: Активный</p>
-            <p>ID: 17268</p>
             <div className="profile-general-balance">
-              <p>Баланс аккаунта: 1000 USDT</p>
+              <p>Баланс аккаунта: {user.balance} USDT</p>
               <Button>Пополнить</Button>
             </div>
 
@@ -55,9 +65,30 @@ const Profile: FC = () => {
                     <InputGroup className="mb-3">
                       <FormControl
                         disabled
-                        value="example@gmail.com"
+                        value={user.email}
                         aria-label="email"
                       />
+
+                      {user.isActivated && (
+                        <InputGroup.Text>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-check2"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                          </svg>
+                        </InputGroup.Text>
+                      )}
+
+                      {!user.isActivated && (
+                        <Button onClick={() => handleEmailConfirm()}>
+                          Подтвердить
+                        </Button>
+                      )}
                     </InputGroup>
                   </Col>
                 </Row>
@@ -69,11 +100,7 @@ const Profile: FC = () => {
                   </Col>
                   <Col>
                     <InputGroup className="mb-3">
-                      <FormControl
-                        disabled
-                        value="123981279837"
-                        aria-label="name"
-                      />
+                      <FormControl disabled value="name" aria-label="name" />
                     </InputGroup>
                   </Col>
                 </Row>
@@ -97,23 +124,7 @@ const Profile: FC = () => {
                   </Col>
                 </Row>
               </Col>
-              <Col>
-                <Row>
-                  <Col>
-                    <p className="my-1">Часовой пояс: </p>
-                  </Col>
-                  <Col>
-                    <Form.Select aria-label="TimeZone">
-                      <option value="1">GMT +3</option>
-                      <option value="2">GMT +4</option>
-                      <option value="3">GMT +5</option>
-                    </Form.Select>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
 
-            <Row>
               <Col>
                 <Row>
                   <Col>
@@ -130,7 +141,6 @@ const Profile: FC = () => {
                   </Col>
                 </Row>
               </Col>
-              <Col></Col>
             </Row>
           </div>
         </Card.Body>

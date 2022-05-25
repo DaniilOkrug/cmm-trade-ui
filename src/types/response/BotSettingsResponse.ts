@@ -38,6 +38,8 @@ export interface BotSettingsResponse {
       priceFollowDelay: number;
       newGridDelay: number;
       endCycleDelay: number;
+      distribution: string;
+      logFactor: number;
     };
   };
 }

@@ -83,8 +83,22 @@ export const checkAuth = createAsyncThunk(
 
       return response.data.user;
     } catch (err: any) {
-      console.error(err.response.data.messageu);
+      console.error(err.response.data.message);
       return thunkAPI.rejectWithValue("Ошибка авторизации!");
+    }
+  }
+);
+
+export const getConfirmLetter = createAsyncThunk(
+  "user/getConfirmLetter",
+  async (_, thunkAPI) => {
+    try {
+      const userData = await UserService.getConfirmLetter();
+      
+      return userData.data;
+    } catch (err: any) {
+      console.error(err.response.data.message);
+      return thunkAPI.rejectWithValue(err.response.data.message);
     }
   }
 );

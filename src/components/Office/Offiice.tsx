@@ -15,6 +15,7 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
   const { isLoadingBots, userBotError: error } = useAppSelector(
     (state) => state.userBotReducer
   );
+  const { user } = useAppSelector(state => state.userReducer);
 
   const [modalShow, setModalShow] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
@@ -49,7 +50,11 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
           <Button className="m-1" onClick={() => setModalShow(true)}>
             Создать робота
           </Button>
-          <Button variant="danger" className="m-1" onClick={() => handleStopAllBots()}>
+          <Button
+            variant="danger"
+            className="m-1"
+            onClick={() => handleStopAllBots()}
+          >
             Остановить всех роботов
           </Button>
         </div>
@@ -60,6 +65,9 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
           <Card className="accountInfo">
             <Card.Body>
               <h4>Информация об аккаунте</h4>
+              {!user.isActivated && 
+                <p className="error">Почта не подтверждена</p>
+              }
 
               <hr />
 

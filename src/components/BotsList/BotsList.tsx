@@ -8,7 +8,6 @@ import {
   startBot,
   stopBot,
 } from "../../store/reducers/ActionCreator";
-import { setBotData } from "../../store/reducers/UserBotSlice";
 
 const BotsList: FC = () => {
   const dispatch = useAppDispatch();

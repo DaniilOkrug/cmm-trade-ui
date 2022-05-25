@@ -33,5 +33,7 @@ export interface IBot {
     priceFollowDelay: number;
     newGridDelay: number;
     endCycleDelay: number;
+    distribution: string;
+    logFactor: number;
   };
 }

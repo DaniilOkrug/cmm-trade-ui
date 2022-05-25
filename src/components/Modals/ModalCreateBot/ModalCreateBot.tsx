@@ -199,7 +199,8 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      values.key = apiList[0].key;
+                      if (apiList.length)
+                        values.key = apiList[0].key;
                       onHide();
                     }}
                   >

@@ -47,10 +47,12 @@ const BotSettings: FC = () => {
 
   const [ordersNumber, setOrdersNumber] = useState<number>(0);
   const [size, setSize] = useState<number>(0);
+  const [distribution, setDistribution] = useState<string>("");
   const [martingeil, setMartingeil] = useState<number>(0);
   const [indentFirstOrder, setIndentFirstOrder] = useState<number>(0);
   const [profit, setProfit] = useState<number>(0);
   const [priceFollow, setPriceFollow] = useState<number>(0);
+  const [logFactor, setLogFactor] = useState<number>(1);
 
   const [priceFollowDelay, setPriceFollowDelay] = useState<number>(0);
   const [newGridDelay, setNewGridDelay] = useState<number>(0);
@@ -108,6 +110,7 @@ const BotSettings: FC = () => {
 
     if (botSettings.grid) {
       setOrdersNumber(botSettings.grid.ordersNumber);
+      setDistribution(botSettings.grid.distribution);
       setSize(botSettings.grid.size);
       setMartingeil(botSettings.grid.martingeil);
       setIndentFirstOrder(botSettings.grid.indentFirstOrder);
@@ -116,6 +119,7 @@ const BotSettings: FC = () => {
       setPriceFollowDelay(botSettings.grid.priceFollowDelay);
       setNewGridDelay(botSettings.grid.newGridDelay);
       setEndCycleDelay(botSettings.grid.endCycleDelay);
+      setLogFactor(botSettings.grid.logFactor);
     }
 
     if (botSettings.analyzer) {
@@ -211,6 +215,7 @@ const BotSettings: FC = () => {
         grid: {
           size: size,
           ordersNumber: ordersNumber,
+          distribution: distribution,
           martingeil: martingeil,
           indentFirstOrder: indentFirstOrder,
           profit: profit,
@@ -218,8 +223,10 @@ const BotSettings: FC = () => {
           priceFollowDelay: priceFollowDelay,
           newGridDelay: newGridDelay,
           endCycleDelay: endCycleDelay,
+          logFactor: logFactor
         },
       };
+
       dispatch(sendBotSettings(settings)).then(() => {
         if (isBotError) {
           notifyError();
@@ -228,7 +235,7 @@ const BotSettings: FC = () => {
         }
       });
     }
-  }
+  };
 
   if (isLoadingBot) {
     return <h2>Загрузка...</h2>;
@@ -461,6 +468,43 @@ const BotSettings: FC = () => {
                       type="number"
                       value={priceFollow}
                       onChange={(e) => setPriceFollow(Number(e.target.value))}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Row>
+                  <Col>
+                    <p className="my-1">Распределение: </p>
+                  </Col>
+                  <Col>
+                    <Form.Select
+                      aria-label="side"
+                      className="mb-3"
+                      defaultValue={distribution}
+                      onChange={(e) => setDistribution(e.target.value)}
+                    >
+                      <option value="linear">Линейное</option>
+                      <option value="logarithmic">Логарифмическое</option>
+                    </Form.Select>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col>
+                <Row>
+                  <Col>
+                    <p className="my-1">Логарифмический фактор: </p>
+                  </Col>
+                  <Col>
+                    <Form.Control
+                      className="mb-3"
+                      type="number"
+                      value={logFactor}
+                      onChange={(e) => setLogFactor(Number(e.target.value))}
                     />
                   </Col>
                 </Row>

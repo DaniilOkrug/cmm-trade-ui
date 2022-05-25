@@ -8,6 +8,7 @@ import {
   checkApi,
   checkAuth,
   deleteApi,
+  getConfirmLetter,
   getApiList,
   login,
   logout,
@@ -106,6 +107,27 @@ export const userSlice = createSlice({
       state.isAuth = false;
       state.isLoading = false;
     },
+    //email confirmation
+    [getConfirmLetter.fulfilled.type]: (
+      state,
+      action: PayloadAction<IUser>
+    ) => {
+      state.user = action.payload;
+      state.isAuth = action.payload ? true : false;
+      state.userError = "";
+      state.isLoading = false;
+    },
+    [getConfirmLetter.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [getConfirmLetter.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.userError = action.payload;
+      state.isUserError = true;
+      state.isLoading = false;
+    },
     //addApi states
     [addApi.fulfilled.type]: (state, action: PayloadAction<IApi[]>) => {
       state.apiList = action.payload;
@@ -121,9 +143,11 @@ export const userSlice = createSlice({
     },
     //getApiList states
     [getApiList.fulfilled.type]: (state, action: PayloadAction<IApi[]>) => {
+      console.log(action.payload);
+
       state.apiList = action.payload;
-      state.isLoading = false;
       state.userError = "";
+      state.isLoading = false;
     },
     [getApiList.pending.type]: (state) => {
       state.isLoading = true;
@@ -155,7 +179,10 @@ export const userSlice = createSlice({
     [checkApi.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [checkApi.rejected.type]: (state, action: RejectedWithValueAction<string>) => {
+    [checkApi.rejected.type]: (
+      state,
+      action: RejectedWithValueAction<string>
+    ) => {
       state.isLoading = false;
       state.isApiChecked = true;
       state.isUserError = true;

@@ -2,11 +2,17 @@ import { AxiosResponse } from "axios";
 import $api from "../http";
 import { IApi } from "../types/IApi";
 import { IBot } from "../types/iBot";
+import { IUser } from "../types/IUser";
 import { IUserBot } from "../types/IUserBot";
 import { ApiResponse } from "../types/response/ApiResponse";
 import { BotSettingsResponse } from "../types/response/BotSettingsResponse";
 
 export default class UserService {
+  static async getConfirmLetter(
+  ): Promise<AxiosResponse<IUser>> {
+    return await $api.get<IUser>(`/confirmLetter`);
+  }
+
   static async getApiList(userId: string): Promise<AxiosResponse<IApi[]>> {
     return await $api.post<IApi[]>("/apilist", { userId });
   }
