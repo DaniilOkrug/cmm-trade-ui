@@ -12,6 +12,7 @@ import {
 import { API } from "../index";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getConfirmLetter } from "../../store/reducers/ActionCreator";
+import { toast } from "react-toastify";
 
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
@@ -21,9 +22,24 @@ const Profile: FC = () => {
     document.title = "Профиль";
   }, []);
 
+  const notifySuccess = () =>
+    toast.success("Проверьте почту!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
+
   const handleEmailConfirm = () => {
     const isYes = window.confirm("Отправить письмо с подтверждением почты?");
-    if (isYes) dispatch(getConfirmLetter());
+    if (isYes) {
+      dispatch(getConfirmLetter()).then(() => {
+        notifySuccess();
+      });
+    }
   };
 
   return (
