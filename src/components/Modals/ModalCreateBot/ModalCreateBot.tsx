@@ -11,7 +11,6 @@ import {
 import "./ModalCreateBot.css";
 import {
   deleteError,
-  setLastActionType,
   setUserBotErrorStatus,
 } from "../../../store/reducers/UserBotSlice";
 import { toast } from "react-toastify";
@@ -83,7 +82,6 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
         }
       }
     }
-
   }, [lastActionType]);
 
   const handleCreationBot = (name: string, key: string, deposit: number) => {
@@ -199,8 +197,7 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      if (apiList.length)
-                        values.key = apiList[0].key;
+                      if (apiList.length) values.key = apiList[0].key;
                       onHide();
                     }}
                   >

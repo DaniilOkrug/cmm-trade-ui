@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { CloseButton } from "react-bootstrap";
 import { useAppDispatch } from "../../../hooks/redux";
-import { deleteActivePair, deleteRsiTimeframe } from "../../../store/reducers/BotSlice";
+import { deleteRsiTimeframe } from "../../../store/reducers/BotSlice";
 import "./ActiveElement.css";
 
 interface props {
