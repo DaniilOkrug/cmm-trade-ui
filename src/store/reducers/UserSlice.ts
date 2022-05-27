@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IApi } from "../../types/IApi";
 import { IUser } from "../../types/IUser";
-import { ApiResponse } from "../../types/response/ApiResponse";
 import { RejectedWithValueAction } from "../../types/response/RejectWithValue";
 import {
   addApi,
@@ -171,7 +170,8 @@ export const userSlice = createSlice({
       state.isLoading = false;
     },
     //checkApi states
-    [checkApi.fulfilled.type]: (state, action: PayloadAction<ApiResponse>) => {
+    [checkApi.fulfilled.type]: (state, action: PayloadAction<IApi[]>) => {
+      state.apiList = action.payload;
       state.isLoading = false;
       state.userError = "";
       state.isApiChecked = true;

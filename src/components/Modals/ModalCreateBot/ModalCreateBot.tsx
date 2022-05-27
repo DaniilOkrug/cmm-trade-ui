@@ -64,8 +64,6 @@ const ModalCreateBot: FC<Props> = ({ showModal, onHide, children }) => {
     });
 
   useEffect(() => {
-    dispatch(getBotSettings()).then(() => {});
-
     if (isAuth) {
       dispatch(getApiList(user.id)).then(() => {});
     }

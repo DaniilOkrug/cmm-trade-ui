@@ -1,4 +1,5 @@
 import React, { FC, useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,7 +18,7 @@ import { setErrotStatus } from "./store/reducers/UserSlice";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const { user, isAuth, userError, isUserError } = useAppSelector((state) => state.userReducer);
+  const { user, isAuth, userError, isUserError, isLoading } = useAppSelector((state) => state.userReducer);
 
   const notifyError = () =>
     toast.error(userError, {
@@ -43,9 +44,7 @@ const App: FC = () => {
       notifyError();
       dispatch(setErrotStatus(false));
     }
-  }, [isUserError]);
-
-  console.log(user);
+  }, [isUserError]); 
 
   if (isAuth) {
     switch (user?.role) {

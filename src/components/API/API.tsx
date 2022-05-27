@@ -28,7 +28,6 @@ const API: FC = () => {
   if (isApiChecked && !isError) {
     notifySuccess();
     dispatch(setApiChecked(false));
-    console.log("isApiChecked", isApiChecked);
   }
 
   return (

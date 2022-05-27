@@ -4,7 +4,6 @@ import { IApi } from "../types/IApi";
 import { IBot } from "../types/iBot";
 import { IUser } from "../types/IUser";
 import { IUserBot } from "../types/IUserBot";
-import { ApiResponse } from "../types/response/ApiResponse";
 import { BotSettingsResponse } from "../types/response/BotSettingsResponse";
 
 export default class UserService {
@@ -30,8 +29,8 @@ export default class UserService {
     return $api.post<IApi[]>("/deleteApi", { key });
   }
 
-  static async checkApi(key: string): Promise<AxiosResponse<ApiResponse>> {
-    return $api.post<ApiResponse>("/checkApi", { key });
+  static async checkApi(key: string): Promise<AxiosResponse<IApi[]>> {
+    return $api.post<IApi[]>("/checkApi", { key });
   }
 
   static async getBotSettings(): Promise<AxiosResponse<BotSettingsResponse>> {

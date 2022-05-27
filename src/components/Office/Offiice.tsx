@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import "./Office.css";
-import { Button, Container, Row, Col, Card, Table } from "react-bootstrap";
+import { Button, Container, Row, Col, Card, Table, Spinner } from "react-bootstrap";
 import { BotsList, ModalCreateBot } from "..";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { stopAllBots } from "../../store/reducers/ActionCreator";
@@ -15,7 +15,7 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
   const { isLoadingBots, userBotError: error } = useAppSelector(
     (state) => state.userBotReducer
   );
-  const { user } = useAppSelector(state => state.userReducer);
+  const { user, isLoading } = useAppSelector((state) => state.userReducer);
 
   const [modalShow, setModalShow] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
@@ -40,7 +40,7 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
       "Вы уверены, что хотите остановить всех роботов?"
     );
     if (answer) dispatch(stopAllBots());
-  }
+  };
 
   return (
     <Container fluid className="office">
@@ -65,9 +65,9 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
           <Card className="accountInfo">
             <Card.Body>
               <h4>Информация об аккаунте</h4>
-              {!user.isActivated && 
+              {!user.isActivated && (
                 <p className="error">Почта не подтверждена</p>
-              }
+              )}
 
               <hr />
 
