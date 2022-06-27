@@ -33,6 +33,9 @@ export const login = createAsyncThunk(
         userData.password
       );
 
+      console.log(response.data);
+      
+
       localStorage.setItem("token", response.data.accessToken);
       return response.data.user;
     } catch (err) {
@@ -78,7 +81,7 @@ export const checkAuth = createAsyncThunk(
       const response = await axios.get<AuthResponse>(`${URL}/refresh`, {
         withCredentials: true,
       });
-      
+      console.log(response.data);
       localStorage.setItem("token", response.data.accessToken);
 
       return response.data.user;

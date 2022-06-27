@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Profile.css";
 import {
   Card,
@@ -9,7 +9,7 @@ import {
   InputGroup,
   FormControl,
 } from "react-bootstrap";
-import { API } from "../index";
+import { API, ModalDeposit } from "../index";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getConfirmLetter } from "../../store/reducers/ActionCreator";
 import { toast } from "react-toastify";
@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.userReducer);
+
+  const [modalDepositShow, setModalDepositShow] = useState(false);
 
   useEffect(() => {
     document.title = "Профиль";
@@ -56,7 +58,9 @@ const Profile: FC = () => {
             <p>Статус: Активный</p>
             <div className="profile-general-balance">
               <p>Баланс аккаунта: {user.balance} USDT</p>
-              <Button>Пополнить</Button>
+              <Button onClick={() => setModalDepositShow(true)}>
+                Пополнить
+              </Button>
             </div>
 
             <p>Комиссия: 20%</p>
@@ -167,6 +171,12 @@ const Profile: FC = () => {
           <API />
         </Card.Body>
       </Card>
+      <ModalDeposit
+        showModal={modalDepositShow}
+        onHide={() => {
+          setModalDepositShow(false);
+        }}
+      />
     </Container>
   );
 };

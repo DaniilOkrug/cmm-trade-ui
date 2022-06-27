@@ -1,7 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import "./Office.css";
-import { Button, Container, Row, Col, Card, Table, Spinner } from "react-bootstrap";
-import { BotsList, ModalCreateBot } from "..";
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+} from "react-bootstrap";
+import { BotsList, ModalCreateBot, ModalDeposit } from "..";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { stopAllBots } from "../../store/reducers/ActionCreator";
 
@@ -17,7 +23,8 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
   );
   const { user, isLoading } = useAppSelector((state) => state.userReducer);
 
-  const [modalShow, setModalShow] = useState(false);
+  const [modalCreateShow, setModalCreateShow] = useState(false);
+  const [modalDepositShow, setModalDepositShow] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
 
   useEffect(() => {
@@ -30,7 +37,8 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
 
   if (updateModal && !isLoadingBots) {
     if (error == "") {
-      setModalShow(false);
+      setModalCreateShow(false);
+      setModalDepositShow(false);
       setUpdateModal(false);
     }
   }
@@ -46,8 +54,10 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
     <Container fluid className="office">
       <Row className="accountActions">
         <div>
-          <Button className="m-1">Пополнить</Button>
-          <Button className="m-1" onClick={() => setModalShow(true)}>
+          <Button className="m-1" onClick={() => setModalDepositShow(true)}>
+            Пополнить
+          </Button>
+          <Button className="m-1" onClick={() => setModalCreateShow(true)}>
             Создать робота
           </Button>
           <Button
@@ -79,12 +89,12 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
                 </Row>
                 <Row>
                   <p>
-                    ID: <span className="info-id">123</span>
+                    ID: <span className="info-id">{user.id}</span>
                   </p>
                 </Row>
                 <Row>
                   <p>
-                    Баланс аккаунта: <span className="info-balance">1000</span>{" "}
+                    Баланс аккаунта: <span className="info-balance">{user.balance}</span>{" "}
                     USDT
                   </p>
                 </Row>
@@ -122,12 +132,20 @@ const Office: FC<TitleProps> = ({ title, subtitle, children }) => {
           </Card>
         </Col>
       </Row>
+
       <ModalCreateBot
-        showModal={modalShow}
+        showModal={modalCreateShow}
         onHide={() => {
-          setModalShow(false);
+          setModalCreateShow(false);
         }}
-      ></ModalCreateBot>
+      />
+
+      <ModalDeposit
+        showModal={modalDepositShow}
+        onHide={() => {
+          setModalDepositShow(false);
+        }}
+      />
     </Container>
   );
 };

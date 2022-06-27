@@ -38,7 +38,7 @@ const DashboardMenu: FC = () => {
           <Nav.Item>
             <Col className="menu-info">
               <p className="info-email">{user.email}</p>
-              <p className="info-balance">Balance: {user.balance}$</p>
+              <p className="info-balance">Balance: {user.balance} USDT</p>
             </Col>
           </Nav.Item>
           <Nav.Item>

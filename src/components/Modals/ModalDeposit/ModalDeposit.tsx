@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import "./ModalDeposit.css";
 import { Modal, Button, Col, Row, FormControl, Form } from "react-bootstrap";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface Props {
   showModal: boolean;
@@ -8,9 +9,12 @@ interface Props {
 }
 
 const ModalDeposit: FC<Props> = ({ showModal, onHide, children }) => {
+  const { user } = useAppSelector((state) => state.userReducer);
+
   return (
     <div>
       <Modal
+        onHide={onHide}
         show={showModal}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -18,42 +22,19 @@ const ModalDeposit: FC<Props> = ({ showModal, onHide, children }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Добавление API ключа
+            Пополнение
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="mb-3">
-            <Col>
-              <div className="d-flex">
-                <p className="me-4 my-1">Название: </p>
-                <FormControl aria-label="api-name" />
-              </div>
-            </Col>
-            <Col>
-              <Row>
-                <div className="d-flex">
-                  <p className="me-4 my-1">Биржа: </p>
-                  <Form.Select aria-label="TimeZone">
-                    <option value="1">Binance Spot</option>
-                    <option value="2">Binance Futures</option>
-                  </Form.Select>
-                </div>
-              </Row>
-            </Col>
-          </Row>
+            <p className="me-4 my-1">
+              Для пополнения используйте USDT, сеть BEP20 и в МЕМО укажите:{" "}
+              {user.id}
+            </p>
 
-          <Row className="mb-3">
-            <Col>
-              <p className="me-4 my-1">API ключ: </p>
-              <FormControl aria-label="api-name" />
-            </Col>
-          </Row>
-
-          <Row className="mb-3">
-            <Col>
-              <p className="me-4 my-1">Секретный ключ: </p>
-              <FormControl aria-label="api-name" />
-            </Col>
+            <p className="me-4 my-1">
+              Адрес для перевода: bnb17w4qnszku99ef5zp8uwueayefrqa0sw8d4axgv
+            </p>
           </Row>
         </Modal.Body>
         <Modal.Footer>
